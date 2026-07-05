@@ -1,7 +1,7 @@
-name: server_box
-description: server status & toolbox app.
+name: surlor_ai
+description: Surlor AI - AI-powered server management toolbox.
 publish_to: "none"
-version: 1.0.1450+1450
+version: 1.0.1352+135200
 
 environment:
   sdk: ">=3.11.0"
@@ -73,8 +73,6 @@ dev_dependencies:
   test: ^1.29.0
   flutter_test:
     sdk: flutter
-  fl_build:
-    path: packages/fl_build
 
 flutter:
   generate: true
@@ -99,9 +97,9 @@ flutter:
   #         weight: 700
 
 flutter_native_splash:
-  color: "#ffffff"
+  color: "#FF8C00"
   image: assets/app_icon.png
-  color_dark: "#121212"
+  color_dark: "#1E1E1E"
   info_plist_files:
     - "ios/Runner/Info-Debug.plist"
     - "ios/Runner/Info-Profile.plist"
