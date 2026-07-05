@@ -1,6 +1,6 @@
-import 'package:server_box/data/model/app/scripts/script_builders.dart';
-import 'package:server_box/data/model/app/scripts/script_consts.dart';
-import 'package:server_box/data/model/server/system.dart';
+import 'package:surlor_ai/data/model/app/scripts/script_builders.dart';
+import 'package:surlor_ai/data/model/app/scripts/script_consts.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
 
 /// Shell functions available in the ServerBox application
 enum ShellFunc {

@@ -8,11 +8,11 @@ import 'package:dio/io.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/data/model/app/error.dart';
-import 'package:server_box/data/model/server/pve.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/provider/server/single.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/data/model/app/error.dart';
+import 'package:surlor_ai/data/model/server/pve.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/provider/server/single.dart';
 
 part 'pve.freezed.dart';
 part 'pve.g.dart';

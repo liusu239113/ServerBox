@@ -1,5 +1,5 @@
-import 'package:server_box/data/model/container/image.dart';
-import 'package:server_box/data/model/container/ps.dart';
+import 'package:surlor_ai/data/model/container/image.dart';
+import 'package:surlor_ai/data/model/container/ps.dart';
 
 enum ContainerType {
   docker,

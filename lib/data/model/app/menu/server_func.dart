@@ -1,7 +1,7 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 enum ServerFuncBtn {
   terminal(),

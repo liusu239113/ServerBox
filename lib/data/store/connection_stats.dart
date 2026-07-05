@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:fl_lib/fl_lib.dart';
 import 'package:hive_ce/hive.dart';
-import 'package:server_box/data/model/server/connection_stat.dart';
+import 'package:surlor_ai/data/model/server/connection_stat.dart';
 
 class ConnectionStatsStore extends HiveStore {
   ConnectionStatsStore._() : super('connection_stats');

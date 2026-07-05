@@ -1,10 +1,10 @@
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/core/utils/jump_chain.dart';
-import 'package:server_box/core/utils/refresh_interval.dart';
-import 'package:server_box/core/utils/server.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/res/default.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/core/utils/jump_chain.dart';
+import 'package:surlor_ai/core/utils/refresh_interval.dart';
+import 'package:surlor_ai/core/utils/server.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/res/default.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 class SftpReq {
   final Spi spi;

@@ -1,8 +1,8 @@
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/store/cached_store.dart';
-import 'package:server_box/data/store/container.dart';
-import 'package:server_box/data/store/setting.dart';
-import 'package:server_box/data/store/snippet.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/store/cached_store.dart';
+import 'package:surlor_ai/data/store/container.dart';
+import 'package:surlor_ai/data/store/setting.dart';
+import 'package:surlor_ai/data/store/snippet.dart';
 
 class ServerStore extends CachedHiveStore<Spi> {
   ServerStore._() : super('server');

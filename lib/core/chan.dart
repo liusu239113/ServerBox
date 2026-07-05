@@ -1,7 +1,7 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/services.dart';
-import 'package:server_box/data/res/misc.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/data/res/misc.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 abstract final class MethodChans {
   static const _channel = MethodChannel('${Miscs.pkgName}/main_chan');

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/container/type.dart';
+import 'package:surlor_ai/data/model/container/type.dart';
 
 abstract final class ContainerImg {
   final String? repository = null;

@@ -1,10 +1,10 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/data/model/app/tab.dart';
-import 'package:server_box/data/res/store.dart';
-import 'package:server_box/view/page/home_tab.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/data/model/app/tab.dart';
+import 'package:surlor_ai/data/res/store.dart';
+import 'package:surlor_ai/view/page/home_tab.dart';
 
 class HomeTabsConfigPage extends ConsumerStatefulWidget {
   const HomeTabsConfigPage({super.key});

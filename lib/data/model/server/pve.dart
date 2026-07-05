@@ -1,5 +1,5 @@
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/core/extension/context/locale.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
 
 enum PveResType {
   lxc,

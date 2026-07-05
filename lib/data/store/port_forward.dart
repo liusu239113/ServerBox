@@ -1,5 +1,5 @@
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/server/port_forward.dart';
+import 'package:surlor_ai/data/model/server/port_forward.dart';
 
 class PortForwardStore extends HiveStore {
   PortForwardStore._() : super('port_forward');

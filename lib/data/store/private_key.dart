@@ -1,7 +1,7 @@
 import 'package:fl_lib/fl_lib.dart';
 
-import 'package:server_box/data/model/server/private_key_info.dart';
-import 'package:server_box/data/store/cached_store.dart';
+import 'package:surlor_ai/data/model/server/private_key_info.dart';
+import 'package:surlor_ai/data/store/cached_store.dart';
 
 class PrivateKeyStore extends CachedHiveStore<PrivateKeyInfo> {
   PrivateKeyStore._() : super('key');

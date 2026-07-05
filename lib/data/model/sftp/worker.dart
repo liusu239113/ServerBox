@@ -6,9 +6,9 @@ import 'dart:typed_data';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:easy_isolate/easy_isolate.dart';
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/core/utils/server.dart';
-import 'package:server_box/core/utils/sftp_timeout.dart';
-import 'package:server_box/data/model/sftp/req.dart';
+import 'package:surlor_ai/core/utils/server.dart';
+import 'package:surlor_ai/core/utils/sftp_timeout.dart';
+import 'package:surlor_ai/data/model/sftp/req.dart';
 
 const _sftpChunkSize = 32 * 1024;
 

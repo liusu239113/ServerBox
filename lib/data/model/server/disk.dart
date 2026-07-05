@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/server/time_seq.dart';
+import 'package:surlor_ai/data/model/server/time_seq.dart';
 
-import 'package:server_box/data/res/misc.dart';
+import 'package:surlor_ai/data/res/misc.dart';
 
 class Disk with EquatableMixin {
   final String path;

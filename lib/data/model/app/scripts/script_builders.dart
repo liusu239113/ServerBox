@@ -1,6 +1,6 @@
-import 'package:server_box/data/model/app/scripts/cmd_types.dart';
-import 'package:server_box/data/model/app/scripts/script_consts.dart';
-import 'package:server_box/data/model/app/scripts/shell_func.dart';
+import 'package:surlor_ai/data/model/app/scripts/cmd_types.dart';
+import 'package:surlor_ai/data/model/app/scripts/script_consts.dart';
+import 'package:surlor_ai/data/model/app/scripts/shell_func.dart';
 
 /// Abstract base class for platform-specific script builders
 sealed class ScriptBuilder {

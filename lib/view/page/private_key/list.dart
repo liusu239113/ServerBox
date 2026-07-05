@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/data/model/server/private_key_info.dart';
-import 'package:server_box/data/provider/private_key.dart';
-import 'package:server_box/data/res/store.dart';
-import 'package:server_box/view/page/private_key/edit.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/data/model/server/private_key_info.dart';
+import 'package:surlor_ai/data/provider/private_key.dart';
+import 'package:surlor_ai/data/res/store.dart';
+import 'package:surlor_ai/view/page/private_key/edit.dart';
 
 class PrivateKeysListPage extends ConsumerStatefulWidget {
   const PrivateKeysListPage({super.key});

@@ -4,8 +4,8 @@ import 'dart:typed_data';
 
 import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter/widgets.dart';
-import 'package:server_box/data/helper/ssh_decoder.dart';
-import 'package:server_box/data/model/server/system.dart';
+import 'package:surlor_ai/data/helper/ssh_decoder.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
 
 typedef OnStdout = void Function(String data, SSHSession session);
 typedef OnStderr = void Function(String data, SSHSession session);

@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/app/menu/server_func.dart';
-import 'package:server_box/data/model/app/net_view.dart';
-import 'package:server_box/data/model/app/server_detail_card.dart';
-import 'package:server_box/data/model/app/tab.dart';
-import 'package:server_box/data/model/ssh/virtual_key.dart';
-import 'package:server_box/data/res/default.dart';
+import 'package:surlor_ai/data/model/app/menu/server_func.dart';
+import 'package:surlor_ai/data/model/app/net_view.dart';
+import 'package:surlor_ai/data/model/app/server_detail_card.dart';
+import 'package:surlor_ai/data/model/app/tab.dart';
+import 'package:surlor_ai/data/model/ssh/virtual_key.dart';
+import 'package:surlor_ai/data/res/default.dart';
 
 class SettingStore extends HiveStore {
   SettingStore._() : super('setting');
@@ -30,8 +30,8 @@ class SettingStore extends HiveStore {
   /// Warning: This may cause some UI issues
   late final textFactor = propertyDefault('textFactor', 1.0);
 
-  /// The seed of color scheme
-  late final colorSeed = propertyDefault('primaryColor', 4287106639);
+  /// The seed of color scheme (Surlor AI Orange: #FF8C00)
+  late final colorSeed = propertyDefault('primaryColor', 4294901760);
 
   late final serverStatusUpdateInterval = propertyDefault(
     'serverStatusUpdateInterval',

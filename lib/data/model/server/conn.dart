@@ -1,4 +1,4 @@
-import 'package:server_box/data/res/misc.dart';
+import 'package:surlor_ai/data/res/misc.dart';
 
 class Conn {
   final int maxConn;

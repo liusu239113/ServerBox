@@ -2,9 +2,9 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:server_box/data/model/server/snippet.dart';
-import 'package:server_box/data/provider/snippet.dart';
-import 'package:server_box/view/page/snippet/edit.dart';
+import 'package:surlor_ai/data/model/server/snippet.dart';
+import 'package:surlor_ai/data/provider/snippet.dart';
+import 'package:surlor_ai/view/page/snippet/edit.dart';
 
 class SnippetListPage extends ConsumerStatefulWidget {
   const SnippetListPage({super.key});

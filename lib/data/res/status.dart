@@ -1,11 +1,11 @@
-import 'package:server_box/data/model/server/conn.dart';
-import 'package:server_box/data/model/server/cpu.dart';
-import 'package:server_box/data/model/server/disk.dart';
-import 'package:server_box/data/model/server/memory.dart';
-import 'package:server_box/data/model/server/net_speed.dart';
-import 'package:server_box/data/model/server/server.dart';
-import 'package:server_box/data/model/server/system.dart';
-import 'package:server_box/data/model/server/temp.dart';
+import 'package:surlor_ai/data/model/server/conn.dart';
+import 'package:surlor_ai/data/model/server/cpu.dart';
+import 'package:surlor_ai/data/model/server/disk.dart';
+import 'package:surlor_ai/data/model/server/memory.dart';
+import 'package:surlor_ai/data/model/server/net_speed.dart';
+import 'package:surlor_ai/data/model/server/server.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
+import 'package:surlor_ai/data/model/server/temp.dart';
 
 abstract final class InitStatus {
   static SingleCpuCore get _initOneTimeCpuStatus =>

@@ -1,11 +1,11 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/core/route.dart';
-import 'package:server_box/data/model/server/port_forward.dart';
-import 'package:server_box/data/provider/port_forward_provider.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/core/route.dart';
+import 'package:surlor_ai/data/model/server/port_forward.dart';
+import 'package:surlor_ai/data/provider/port_forward_provider.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 final class PortForwardPage extends ConsumerStatefulWidget {
   final SpiRequiredArgs args;

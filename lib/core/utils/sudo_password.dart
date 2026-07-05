@@ -1,7 +1,7 @@
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/res/misc.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/res/misc.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 abstract final class SudoPassword {
   static SecureProp secureProp(String serverId) {

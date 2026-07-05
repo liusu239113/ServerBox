@@ -1,8 +1,8 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/core/utils/misc.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/core/utils/misc.dart';
+import 'package:surlor_ai/data/res/store.dart';
 import 'package:watch_connectivity/watch_connectivity.dart';
 
 class IosSettingsPage extends StatefulWidget {

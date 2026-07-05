@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:server_box/data/ssh/persistent_shell.dart';
-import 'package:server_box/data/ssh/tmux/tmux_command_builder.dart';
-import 'package:server_box/data/ssh/tmux/tmux_session_info.dart';
-import 'package:server_box/data/ssh/tmux/tmux_session_scanner.dart';
-import 'package:server_box/data/ssh/tmux/tmux_window_info.dart';
+import 'package:surlor_ai/data/ssh/persistent_shell.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_command_builder.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session_info.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session_scanner.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_window_info.dart';
 
 /// Represents the user's choice when connecting to tmux.
 sealed class TmuxAttachChoice {

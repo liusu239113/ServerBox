@@ -9,7 +9,7 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
-  String get aboutThanks => '感谢以下参与的各位。';
+  String get aboutThanks => '感谢以下贡献者';
 
   @override
   String get acceptBeta => '接受测试版更新推送';
@@ -27,7 +27,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get alreadyLastDir => '已是顶级目录';
 
   @override
-  String get askAi => '问 AI';
+  String get askAi => 'AI 助手';
 
   @override
   String get ai => 'AI';
@@ -78,7 +78,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get askAiSelectedContent => '选中的内容';
 
   @override
-  String get askAiUsageHint => '用于 SSH 终端';
+  String get askAiUsageHint => '在 SSH 终端中调用 AI';
 
   @override
   String get atLeastOneTab => '至少需要选择一个标签';
@@ -229,7 +229,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get cursorType => '光标类型';
 
   @override
-  String get configured => 'Configured';
+  String get configured => '已配置';
 
   @override
   String get customCmd => '自定义命令';
@@ -335,7 +335,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get fgServiceTip =>
-      '开启后，可能会导致部分机型闪退。关闭可能导致部分机型无法后台保持 SSH 连接。请在系统设置内允许 ServerBox 通知权限、后台运行、自我唤醒。';
+      '开启后，可能会导致部分机型闪退。关闭可能导致部分机型无法后台保持 SSH 连接。请在系统设置内允许 Surlor AI 通知权限、后台运行、自我唤醒。';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -388,10 +388,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get highlight => '代码高亮';
 
   @override
-  String get homeTabs => '主页标签';
+  String get homeTabs => '首页标签';
 
   @override
-  String get homeTabsCustomizeDesc => '自定义主页上显示的标签及其顺序';
+  String get homeTabsCustomizeDesc => '自定义首页显示的标签及其排列顺序';
 
   @override
   String get homeWidgetUrlConfig => '桌面部件链接配置';
@@ -421,7 +421,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get invalid => '无效';
 
   @override
-  String get invalidUrl => 'Invalid URL';
+  String get invalidUrl => '无效的 URL';
 
   @override
   String get invalidHostFormat => '主机格式无效，仅支持 IPv4、IPv6 和域名字符。';
@@ -467,7 +467,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String madeWithLove(Object myGithub) {
-    return '用❤️制作 by $myGithub';
+    return 'Surlor AI · 用 ❤️ 打造';
   }
 
   @override
@@ -702,7 +702,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get sftpSSHConnected => 'SFTP 已连接';
 
   @override
-  String get sftp => 'SFTP';
+  String get sftp => 'SFTP 文件管理';
 
   @override
   String get sftpShowFoldersFirst => '文件夹显示在前';
@@ -740,7 +740,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get ssh => 'SSH';
+  String get ssh => 'SSH 终端';
 
   @override
   String get sshConnectionMode => 'SSH 连接方式';
@@ -838,7 +838,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String sshTip(Object url) {
-    return '该功能目前处于测试阶段。\n\n请在 $url 反馈问题，或者加入我们开发。';
+    return '此功能目前处于实验阶段。\n\n请在 $url 提交问题反馈，或加入我们的开发。';
   }
 
   @override
@@ -964,7 +964,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get whenOpenApp => '当打开 App 时';
 
   @override
-  String get wiki => 'Wiki';
+  String get wiki => '文档';
 
   @override
   String get wolTip => '配置 WOL 后，每次连接服务器时将自动发送唤醒请求';
@@ -977,7 +977,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get writeScriptTip =>
-      '在连接服务器后，会向 `~/.config/server_box` \n | `/tmp/server_box` 写入脚本来监测系统状态，你可以审查脚本内容。';
+      '连接服务器后，会向 `~/.config/surlor_ai` 写入脚本来监测系统状态，你可以审查脚本内容。';
 
   @override
   String get menuGitHubRepository => 'GitHub 仓库';

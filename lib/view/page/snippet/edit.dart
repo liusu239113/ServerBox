@@ -2,10 +2,10 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/data/model/server/snippet.dart';
-import 'package:server_box/data/provider/server/all.dart';
-import 'package:server_box/data/provider/snippet.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/data/model/server/snippet.dart';
+import 'package:surlor_ai/data/provider/server/all.dart';
+import 'package:surlor_ai/data/provider/snippet.dart';
 
 final class SnippetEditPageArgs {
   final Snippet? snippet;

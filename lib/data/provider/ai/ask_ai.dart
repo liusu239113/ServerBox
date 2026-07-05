@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:server_box/data/model/ai/ask_ai_models.dart';
-import 'package:server_box/data/res/store.dart';
-import 'package:server_box/data/store/setting.dart';
+import 'package:surlor_ai/data/model/ai/ask_ai_models.dart';
+import 'package:surlor_ai/data/res/store.dart';
+import 'package:surlor_ai/data/store/setting.dart';
 
 final askAiRepositoryProvider = Provider<AskAiRepository>((ref) {
   return AskAiRepository();
@@ -206,57 +206,24 @@ class AskAiRepository {
     }
   }
 
+  /// 构建请求体，支持自定义 tools
   Map<String, dynamic> _buildRequestBody({
     required String model,
     required String selection,
-    required List<AskAiMessage> conversation,
     String? localeHint,
+    List<AskAiMessage> conversation = const [],
+    List<Map<String, dynamic>>? tools,
   }) {
-    final promptBuffer = StringBuffer()
-      ..writeln('你是一个 SSH 终端助手。')
-      ..writeln('用户会提供一段终端输出或命令，请结合上下文给出解释。')
-      ..writeln('当需要给出可执行命令时，调用 `recommend_shell` 工具，并提供简短描述。')
-      ..writeln('仅在非常确定命令安全时才给出建议。');
-
-    if (localeHint != null && localeHint.isNotEmpty) {
-      promptBuffer.writeln('请优先使用用户的语言输出：$localeHint。');
-    }
-
     final messages = <Map<String, String>>[
-      {'role': 'system', 'content': promptBuffer.toString()},
-      ...conversation.map(
-        (message) => {'role': message.apiRole, 'content': message.content},
-      ),
-      {'role': 'user', 'content': '以下是终端选中的内容：\n$selection'},
+      {'role': 'user', 'content': selection},
+      for (final msg in conversation)
+        {'role': msg.apiRole, 'content': msg.content},
     ];
-
     return {
       'model': model,
       'stream': true,
       'messages': messages,
-      'tools': [
-        {
-          'type': 'function',
-          'function': {
-            'name': 'recommend_shell',
-            'description': '返回一个用户可以直接复制执行的终端命令。',
-            'parameters': {
-              'type': 'object',
-              'required': ['command'],
-              'properties': {
-                'command': {
-                  'type': 'string',
-                  'description': '完整的终端命令，确保可以被粘贴后直接执行。',
-                },
-                'description': {
-                  'type': 'string',
-                  'description': '简述该命令的作用或注意事项。',
-                },
-              },
-            },
-          },
-        },
-      ],
+      if (tools != null && tools.isNotEmpty) 'tools': tools,
     };
   }
 
@@ -279,6 +246,39 @@ class AskAiRepository {
     return uri.replace(pathSegments: [...segments, ...appendSegments]);
   }
 }
+
+// ─────────── Agent 内部事件 ───────────
+sealed class _AgentEvent { const _AgentEvent(); }
+class _AgentThink extends _AgentEvent {
+  final String delta; const _AgentThink(this.delta);
+}
+class _AgentToolDone extends _AgentEvent {
+  final List<String> results; const _AgentToolDone(this.results);
+}
+class _AgentDone extends _AgentEvent {
+  final String text; final List<String> toolResults;
+  const _AgentDone(this.text, this.toolResults);
+}
+class _AgentErr extends _AgentEvent {
+  final String msg; const _AgentErr(this.msg);
+}
+
+// SSE 解析事件
+sealed class _SseEvent { const _SseEvent(); }
+class _SseDelta extends _SseEvent {
+  final String text; const _SseDelta(this.text);
+}
+class _SseTool extends _SseEvent {
+  final int idx; final String? name; final String? args;
+  const _SseTool({required this.idx, this.name, this.args});
+}
+
+// 工具调用缓冲
+class _TcData {
+  final int idx; String? name; final StringBuffer args = StringBuffer();
+  _TcData(this.idx);
+}
+
 
 class _ToolCallBuilder {
   _ToolCallBuilder();

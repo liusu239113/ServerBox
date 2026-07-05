@@ -1,9 +1,9 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
-import 'package:server_box/core/utils/server.dart';
-import 'package:server_box/core/utils/ssh_auth.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/core/utils/server.dart';
+import 'package:surlor_ai/core/utils/ssh_auth.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 Future<bool> ensureHostKeyAcceptedForSftp(BuildContext context, Spi spi) async {
   final known = Stores.setting.sshKnownHostFingerprints.get();

@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/server/cpu.dart';
-import 'package:server_box/data/model/server/disk.dart';
-import 'package:server_box/data/model/server/memory.dart';
-import 'package:server_box/data/model/server/server.dart';
+import 'package:surlor_ai/data/model/server/cpu.dart';
+import 'package:surlor_ai/data/model/server/disk.dart';
+import 'package:surlor_ai/data/model/server/memory.dart';
+import 'package:surlor_ai/data/model/server/server.dart';
 
 /// Windows CPU parse result
 class WindowsCpuResult {

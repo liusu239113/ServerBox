@@ -5,7 +5,7 @@ import 'dart:typed_data';
 
 import 'package:dartssh2/dartssh2.dart';
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/app/error.dart';
+import 'package:surlor_ai/data/model/app/error.dart';
 
 class ProxyCommandSocket implements SSHSocket {
   ProxyCommandSocket._({

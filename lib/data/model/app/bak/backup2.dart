@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:logging/logging.dart';
-import 'package:server_box/data/provider/private_key.dart';
-import 'package:server_box/data/provider/server/all.dart';
-import 'package:server_box/data/provider/snippet.dart';
-import 'package:server_box/data/res/misc.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/data/provider/private_key.dart';
+import 'package:surlor_ai/data/provider/server/all.dart';
+import 'package:surlor_ai/data/provider/snippet.dart';
+import 'package:surlor_ai/data/res/misc.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 part 'backup2.freezed.dart';
 part 'backup2.g.dart';

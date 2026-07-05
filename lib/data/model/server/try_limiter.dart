@@ -1,4 +1,4 @@
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 class TryLimiter {
   final Map<String, int> _triedTimes = {};

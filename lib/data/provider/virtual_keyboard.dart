@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/data/res/store.dart';
 import 'package:xterm/core.dart';
 
 part 'virtual_keyboard.g.dart';

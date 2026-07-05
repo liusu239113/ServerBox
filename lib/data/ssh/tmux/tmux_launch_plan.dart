@@ -1,7 +1,7 @@
-import 'package:server_box/data/ssh/tmux/tmux_command_builder.dart';
-import 'package:server_box/data/ssh/tmux/tmux_restore_state.dart';
-import 'package:server_box/data/ssh/tmux/tmux_session.dart';
-import 'package:server_box/data/ssh/tmux/tmux_session_info.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_command_builder.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_restore_state.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session_info.dart';
 
 final class TmuxLaunchPlan {
   final String? command;

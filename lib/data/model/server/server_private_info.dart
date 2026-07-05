@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart' show listEquals;
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:server_box/data/model/app/error.dart';
-import 'package:server_box/data/model/server/custom.dart';
-import 'package:server_box/data/model/server/system.dart';
-import 'package:server_box/data/model/server/wol_cfg.dart';
-import 'package:server_box/data/store/server.dart';
+import 'package:surlor_ai/data/model/app/error.dart';
+import 'package:surlor_ai/data/model/server/custom.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
+import 'package:surlor_ai/data/model/server/wol_cfg.dart';
+import 'package:surlor_ai/data/store/server.dart';
 
 part 'server_private_info.freezed.dart';
 part 'server_private_info.g.dart';

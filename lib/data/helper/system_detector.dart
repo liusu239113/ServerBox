@@ -1,8 +1,8 @@
 import 'package:dartssh2/dartssh2.dart';
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/core/extension/ssh_client.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/model/server/system.dart';
+import 'package:surlor_ai/core/extension/ssh_client.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
 
 /// Helper class for detecting remote system types
 class SystemDetector {

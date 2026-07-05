@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:server_box/core/sync.dart';
-import 'package:server_box/data/model/server/private_key_info.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/core/sync.dart';
+import 'package:surlor_ai/data/model/server/private_key_info.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 part 'private_key.freezed.dart';
 part 'private_key.g.dart';

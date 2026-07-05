@@ -1,4 +1,4 @@
-import 'package:server_box/data/res/build_data.dart';
+import 'package:surlor_ai/data/res/build_data.dart';
 
 /// Constants used throughout the script system
 class ScriptConstants {

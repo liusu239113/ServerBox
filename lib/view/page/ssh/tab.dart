@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/core/route.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/provider/server/all.dart';
-import 'package:server_box/data/res/store.dart';
-import 'package:server_box/view/page/server/edit/edit.dart';
-import 'package:server_box/view/page/ssh/page/page.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/core/route.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/provider/server/all.dart';
+import 'package:surlor_ai/data/res/store.dart';
+import 'package:surlor_ai/view/page/server/edit/edit.dart';
+import 'package:surlor_ai/view/page/ssh/page/page.dart';
 
 class SSHTabPage extends ConsumerStatefulWidget {
   const SSHTabPage({super.key});

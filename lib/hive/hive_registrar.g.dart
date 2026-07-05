@@ -3,9 +3,9 @@
 // Check in to version control
 
 import 'package:hive_ce/hive_ce.dart';
-import 'package:server_box/data/model/app/tab.dart';
-import 'package:server_box/data/model/server/connection_stat.dart';
-import 'package:server_box/hive/hive_adapters.dart';
+import 'package:surlor_ai/data/model/app/tab.dart';
+import 'package:surlor_ai/data/model/server/connection_stat.dart';
+import 'package:surlor_ai/hive/hive_adapters.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {

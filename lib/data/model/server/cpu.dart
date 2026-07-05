@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/server/time_seq.dart';
-import 'package:server_box/data/res/status.dart';
+import 'package:surlor_ai/data/model/server/time_seq.dart';
+import 'package:surlor_ai/data/res/status.dart';
 
 /// Capacity of the FIFO queue
 const _kCap = 30;

@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/sftp/req.dart';
-import 'package:server_box/data/model/sftp/worker.dart';
+import 'package:surlor_ai/data/model/sftp/req.dart';
+import 'package:surlor_ai/data/model/sftp/worker.dart';
 
 class SftpReqStatus {
   final int id;

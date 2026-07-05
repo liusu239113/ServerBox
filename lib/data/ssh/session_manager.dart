@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart';
-import 'package:server_box/core/chan.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/core/chan.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
 
 enum TermSessionStatus {
   connecting,

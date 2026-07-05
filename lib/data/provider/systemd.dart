@@ -1,11 +1,11 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:server_box/core/extension/ssh_client.dart';
-import 'package:server_box/data/model/app/scripts/script_consts.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/model/server/systemd.dart';
-import 'package:server_box/data/provider/server/single.dart';
+import 'package:surlor_ai/core/extension/ssh_client.dart';
+import 'package:surlor_ai/data/model/app/scripts/script_consts.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/model/server/systemd.dart';
+import 'package:surlor_ai/data/provider/server/single.dart';
 
 part 'systemd.freezed.dart';
 part 'systemd.g.dart';

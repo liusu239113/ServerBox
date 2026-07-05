@@ -1,7 +1,7 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
-import 'package:server_box/core/route.dart';
-import 'package:server_box/view/page/ssh/page/page.dart';
+import 'package:surlor_ai/core/route.dart';
+import 'package:surlor_ai/view/page/ssh/page/page.dart';
 
 class IPerfPage extends StatefulWidget {
   final SpiRequiredArgs args;

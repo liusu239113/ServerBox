@@ -1,5 +1,5 @@
-import 'package:server_box/data/model/server/snippet.dart';
-import 'package:server_box/data/store/cached_store.dart';
+import 'package:surlor_ai/data/model/server/snippet.dart';
+import 'package:surlor_ai/data/store/cached_store.dart';
 
 class SnippetStore extends CachedHiveStore<Snippet> {
   SnippetStore._() : super('snippet');

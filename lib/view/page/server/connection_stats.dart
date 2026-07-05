@@ -3,9 +3,9 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/data/model/server/connection_stat.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/data/model/server/connection_stat.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 class ConnectionStatsPage extends StatefulWidget {
   const ConnectionStatsPage({super.key});

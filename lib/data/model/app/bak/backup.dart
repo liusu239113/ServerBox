@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:logging/logging.dart';
-import 'package:server_box/data/model/server/private_key_info.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/model/server/snippet.dart';
-import 'package:server_box/data/res/misc.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/data/model/server/private_key_info.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/model/server/snippet.dart';
+import 'package:surlor_ai/data/res/misc.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 part 'backup.g.dart';
 

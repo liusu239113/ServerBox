@@ -1,23 +1,23 @@
 import 'dart:convert';
 
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/app/scripts/cmd_types.dart';
-import 'package:server_box/data/model/app/scripts/script_consts.dart';
-import 'package:server_box/data/model/server/amd.dart';
-import 'package:server_box/data/model/server/battery.dart';
-import 'package:server_box/data/model/server/conn.dart';
-import 'package:server_box/data/model/server/cpu.dart';
-import 'package:server_box/data/model/server/disk.dart';
-import 'package:server_box/data/model/server/disk_smart.dart';
-import 'package:server_box/data/model/server/memory.dart';
-import 'package:server_box/data/model/server/net_speed.dart';
-import 'package:server_box/data/model/server/nvdia.dart';
-import 'package:server_box/data/model/server/sensors.dart';
-import 'package:server_box/data/model/server/server.dart';
-import 'package:server_box/data/model/server/system.dart';
-import 'package:server_box/data/model/server/temp.dart';
-import 'package:server_box/data/model/server/windows_parser.dart';
-import 'package:server_box/data/res/status.dart';
+import 'package:surlor_ai/data/model/app/scripts/cmd_types.dart';
+import 'package:surlor_ai/data/model/app/scripts/script_consts.dart';
+import 'package:surlor_ai/data/model/server/amd.dart';
+import 'package:surlor_ai/data/model/server/battery.dart';
+import 'package:surlor_ai/data/model/server/conn.dart';
+import 'package:surlor_ai/data/model/server/cpu.dart';
+import 'package:surlor_ai/data/model/server/disk.dart';
+import 'package:surlor_ai/data/model/server/disk_smart.dart';
+import 'package:surlor_ai/data/model/server/memory.dart';
+import 'package:surlor_ai/data/model/server/net_speed.dart';
+import 'package:surlor_ai/data/model/server/nvdia.dart';
+import 'package:surlor_ai/data/model/server/sensors.dart';
+import 'package:surlor_ai/data/model/server/server.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
+import 'package:surlor_ai/data/model/server/temp.dart';
+import 'package:surlor_ai/data/model/server/windows_parser.dart';
+import 'package:surlor_ai/data/res/status.dart';
 
 class ServerStatusUpdateReq {
   final ServerStatus ss;

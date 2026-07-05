@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/core/utils/refresh_interval.dart';
-import 'package:server_box/data/model/sftp/req.dart';
-import 'package:server_box/data/model/sftp/status.dart';
-import 'package:server_box/data/provider/sftp.dart';
-import 'package:server_box/data/res/default.dart';
-import 'package:server_box/view/page/storage/local.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/core/utils/refresh_interval.dart';
+import 'package:surlor_ai/data/model/sftp/req.dart';
+import 'package:surlor_ai/data/model/sftp/status.dart';
+import 'package:surlor_ai/data/provider/sftp.dart';
+import 'package:surlor_ai/data/res/default.dart';
+import 'package:surlor_ai/view/page/storage/local.dart';
 
 class SftpMissionPage extends ConsumerStatefulWidget {
   const SftpMissionPage({super.key});

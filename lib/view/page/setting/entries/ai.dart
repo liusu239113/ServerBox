@@ -33,38 +33,66 @@ extension _AI on _AppSettingsPageState {
 
   Widget _buildAskAiConfig() {
     final l10n = context.l10n;
-    return ExpandTile(
-      leading: const Icon(LineAwesome.robot_solid, size: _kIconSize),
-      title: TipText(l10n.askAi, l10n.askAiUsageHint),
-      children: [
-        _buildAskAiTextTile(
-          prop: _setting.askAiBaseUrl,
-          leading: const Icon(MingCute.link_2_line),
-          title: l10n.askAiBaseUrl,
-          hint: 'https://api.openai.com/v1/chat/completions',
-          description: l10n.askAiEndpointTip,
-          displayBuilder: (val) =>
-              (val == null || val.isEmpty) ? libL10n.empty : val,
+
+    // Surlor AI 管理入口（新功能）
+    final managerEntry = ListTile(
+      leading: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [Color(0xFFFF9500), Color(0xFFFF6B35)]),
+          borderRadius: BorderRadius.circular(8),
         ),
-        _buildAskAiTextTile(
-          prop: _setting.askAiModel,
-          leading: const Icon(Icons.view_module),
-          title: libL10n.askAiModel,
-          hint: 'gpt-5.4-mini',
-          displayBuilder: (val) =>
-              (val == null || val.isEmpty) ? libL10n.empty : val,
-        ),
-        _buildAskAiTextTile(
-          prop: _setting.askAiApiKey,
-          leading: const Icon(MingCute.key_2_line),
-          title: l10n.askAiApiKey,
-          hint: 'sk-...',
-          obscure: true,
-          displayBuilder: (val) =>
-              val?.isNotEmpty == true ? l10n.configured : libL10n.empty,
-        ),
-      ],
-    ).cardx;
+        child: const Icon(Icons.smart_toy, color: Colors.white, size: 20),
+      ),
+      title: Text('Surlor AI 引擎管理',
+          style: TextStyle(color: Colors.orange[800], fontWeight: FontWeight.bold)),
+      subtitle: const Text('本地模型下载 · API 预设配置 · 连接测试'),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SurlorAiManagerPage())),
+    );
+
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          managerEntry,
+          const Divider(height: 1, indent: 56),
+          ExpandTile(
+            leading: const Icon(LineAwesome.robot_solid, size: _kIconSize),
+            title: TipText(l10n.askAi, l10n.askAiUsageHint),
+            children: [
+              _buildAskAiTextTile(
+                prop: _setting.askAiBaseUrl,
+                leading: const Icon(MingCute.link_2_line),
+                title: l10n.askAiBaseUrl,
+                hint: 'https://api.openai.com/v1/chat/completions',
+                description: l10n.askAiEndpointTip,
+                displayBuilder: (val) =>
+                    (val == null || val.isEmpty) ? libL10n.empty : val,
+              ),
+              _buildAskAiTextTile(
+                prop: _setting.askAiModel,
+                leading: const Icon(Icons.view_module),
+                title: libL10n.askAiModel,
+                hint: 'gpt-4o-mini',
+                displayBuilder: (val) =>
+                    (val == null || val.isEmpty) ? libL10n.empty : val,
+              ),
+              _buildAskAiTextTile(
+                prop: _setting.askAiApiKey,
+                leading: const Icon(MingCute.key_2_line),
+                title: l10n.askAiApiKey,
+                hint: 'sk-...',
+                obscure: true,
+                displayBuilder: (val) =>
+                    val?.isNotEmpty == true ? l10n.configured : libL10n.empty,
+              ),
+            ],
+          ).cardx,
+        ],
+      ),
+    );
   }
 
   Future<void> _showAskAiFieldDialog({

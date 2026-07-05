@@ -1,9 +1,9 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/data/model/app/server_detail_card.dart';
-import 'package:server_box/data/res/store.dart';
-import 'package:server_box/view/page/setting/seq/reorder_proxy_decorator.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/data/model/app/server_detail_card.dart';
+import 'package:surlor_ai/data/res/store.dart';
+import 'package:surlor_ai/view/page/setting/seq/reorder_proxy_decorator.dart';
 
 class ServerDetailOrderPage extends StatefulWidget {
   const ServerDetailOrderPage({super.key});

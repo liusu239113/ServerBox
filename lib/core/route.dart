@@ -1,4 +1,4 @@
-import 'package:server_box/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
 
 /// The args class for [AppRoute].
 final class SpiRequiredArgs {

@@ -1,9 +1,9 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/provider/server/all.dart';
-import 'package:server_box/data/store/server.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/provider/server/all.dart';
+import 'package:surlor_ai/data/store/server.dart';
 
 class ServerDeduplication {
   /// Remove duplicate servers from the import list based on existing servers

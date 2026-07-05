@@ -1,9 +1,9 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/data/model/app/scripts/script_consts.dart';
-import 'package:server_box/data/model/server/system.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/data/model/app/scripts/script_consts.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
 
 /// Enum representing different command types for various systems
 enum CmdTypeSys {

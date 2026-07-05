@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:server_box/data/model/server/port_forward.dart';
-import 'package:server_box/data/provider/server/single.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/data/model/server/port_forward.dart';
+import 'package:surlor_ai/data/provider/server/single.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 part 'port_forward_provider.g.dart';
 

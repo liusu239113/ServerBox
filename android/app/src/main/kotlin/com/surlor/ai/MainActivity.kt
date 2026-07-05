@@ -1,4 +1,4 @@
-package tech.lolli.toolbox
+package com.surlor.ai
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -13,20 +13,20 @@ import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 import android.appwidget.AppWidgetManager
-import tech.lolli.toolbox.widget.HomeWidget
+import com.surlor.ai.widget.HomeWidget
 
 class MainActivity: FlutterFragmentActivity() {
     private lateinit var channel: MethodChannel
-    private val ACTION_UPDATE_SESSIONS = "tech.lolli.toolbox.ACTION_UPDATE_SESSIONS"
-    private val ACTION_DISCONNECT_SESSION = "tech.lolli.toolbox.ACTION_DISCONNECT_SESSION"
-    private val ACTION_STOP_ALL_CONNECTIONS = "tech.lolli.toolbox.STOP_ALL_CONNECTIONS"
+    private val ACTION_UPDATE_SESSIONS = "com.surlor.ai.ACTION_UPDATE_SESSIONS"
+    private val ACTION_DISCONNECT_SESSION = "com.surlor.ai.ACTION_DISCONNECT_SESSION"
+    private val ACTION_STOP_ALL_CONNECTIONS = "com.surlor.ai.STOP_ALL_CONNECTIONS"
     private var stopAllReceiver: BroadcastReceiver? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         val binaryMessenger = flutterEngine.dartExecutor.binaryMessenger
 
-        channel = MethodChannel(binaryMessenger, "tech.lolli.toolbox/main_chan")
+        channel = MethodChannel(binaryMessenger, "com.surlor.ai/main_chan")
         channel.setMethodCallHandler { method, result ->
                 when (method.method) {
                     "sendToBackground" -> {

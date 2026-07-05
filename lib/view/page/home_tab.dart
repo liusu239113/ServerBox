@@ -1,11 +1,11 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:server_box/data/model/app/tab.dart';
-import 'package:server_box/view/page/server/tab/tab.dart';
-import 'package:server_box/view/page/snippet/list.dart';
-import 'package:server_box/view/page/ssh/tab.dart';
-import 'package:server_box/view/page/storage/local.dart';
+import 'package:surlor_ai/data/model/app/tab.dart';
+import 'package:surlor_ai/view/page/server/tab/tab.dart';
+import 'package:surlor_ai/view/page/snippet/list.dart';
+import 'package:surlor_ai/view/page/ssh/tab.dart';
+import 'package:surlor_ai/view/page/storage/local.dart';
 
 extension AppTabViewX on AppTab {
   Widget get page {

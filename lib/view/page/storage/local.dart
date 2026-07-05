@@ -3,17 +3,17 @@ import 'dart:io';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/core/utils/host_key_helper.dart';
-import 'package:server_box/data/model/app/path_with_prefix.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/model/sftp/req.dart';
-import 'package:server_box/data/provider/server/all.dart';
-import 'package:server_box/data/provider/sftp.dart';
-import 'package:server_box/data/res/misc.dart';
-import 'package:server_box/data/res/store.dart';
-import 'package:server_box/view/page/storage/sftp.dart';
-import 'package:server_box/view/page/storage/sftp_mission.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/core/utils/host_key_helper.dart';
+import 'package:surlor_ai/data/model/app/path_with_prefix.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/model/sftp/req.dart';
+import 'package:surlor_ai/data/provider/server/all.dart';
+import 'package:surlor_ai/data/provider/sftp.dart';
+import 'package:surlor_ai/data/res/misc.dart';
+import 'package:surlor_ai/data/res/store.dart';
+import 'package:surlor_ai/view/page/storage/sftp.dart';
+import 'package:surlor_ai/view/page/storage/sftp_mission.dart';
 
 final class LocalFilePageArgs {
   final bool? isPickFile;

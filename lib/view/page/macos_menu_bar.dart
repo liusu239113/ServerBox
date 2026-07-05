@@ -1,12 +1,12 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/data/model/app/tab.dart';
-import 'package:server_box/data/res/store.dart';
-import 'package:server_box/data/res/url.dart';
-import 'package:server_box/generated/l10n/l10n.dart';
-import 'package:server_box/view/page/setting/entry.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/data/model/app/tab.dart';
+import 'package:surlor_ai/data/res/store.dart';
+import 'package:surlor_ai/data/res/url.dart';
+import 'package:surlor_ai/generated/l10n/l10n.dart';
+import 'package:surlor_ai/view/page/setting/entry.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MacOSMenuBarManager {

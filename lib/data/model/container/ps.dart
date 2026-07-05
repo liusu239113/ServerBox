@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/data/model/container/status.dart';
-import 'package:server_box/data/model/container/type.dart';
-import 'package:server_box/data/res/misc.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/data/model/container/status.dart';
+import 'package:surlor_ai/data/model/container/type.dart';
+import 'package:surlor_ai/data/res/misc.dart';
 
 sealed class ContainerPs {
   String? get id;

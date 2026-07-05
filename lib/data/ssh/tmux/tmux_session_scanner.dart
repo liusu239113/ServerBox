@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/ssh/persistent_shell.dart';
-import 'package:server_box/data/ssh/tmux/tmux_command_builder.dart';
-import 'package:server_box/data/ssh/tmux/tmux_session_info.dart';
-import 'package:server_box/data/ssh/tmux/tmux_window_info.dart';
+import 'package:surlor_ai/data/ssh/persistent_shell.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_command_builder.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session_info.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_window_info.dart';
 
 /// Scans for available tmux sessions on the remote server and manages
 /// tmux -CC connections.

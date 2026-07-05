@@ -1,5 +1,5 @@
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/server/server.dart';
+import 'package:surlor_ai/data/model/server/server.dart';
 
 enum NetViewType {
   conn,

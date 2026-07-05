@@ -7,14 +7,14 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:logging/logging.dart';
-import 'package:server_box/app.dart';
-import 'package:server_box/data/model/app/menu/server_func.dart';
-import 'package:server_box/data/model/app/server_detail_card.dart';
-import 'package:server_box/data/res/build_data.dart';
-import 'package:server_box/data/res/store.dart';
-import 'package:server_box/data/ssh/session_manager.dart';
-import 'package:server_box/data/store/server.dart';
-import 'package:server_box/hive/hive_registrar.g.dart';
+import 'package:surlor_ai/app.dart';
+import 'package:surlor_ai/data/model/app/menu/server_func.dart';
+import 'package:surlor_ai/data/model/app/server_detail_card.dart';
+import 'package:surlor_ai/data/res/build_data.dart';
+import 'package:surlor_ai/data/res/store.dart';
+import 'package:surlor_ai/data/ssh/session_manager.dart';
+import 'package:surlor_ai/data/store/server.dart';
+import 'package:surlor_ai/hive/hive_registrar.g.dart';
 
 Future<void> main() async {
   await _runInZone(() async {

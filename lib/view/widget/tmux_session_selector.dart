@@ -1,9 +1,9 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
-import 'package:server_box/data/ssh/tmux/tmux_command_builder.dart';
-import 'package:server_box/data/ssh/tmux/tmux_session.dart';
-import 'package:server_box/data/ssh/tmux/tmux_session_info.dart';
-import 'package:server_box/data/ssh/tmux/tmux_window_info.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_command_builder.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session_info.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_window_info.dart';
 
 /// Dialog that allows the user to select a tmux session and window.
 final class TmuxSessionSelector extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:dartssh2/dartssh2.dart';
-import 'package:server_box/view/widget/unix_perm.dart';
+import 'package:surlor_ai/view/widget/unix_perm.dart';
 
 extension SftpFileX on SftpFileMode {
   String get str {

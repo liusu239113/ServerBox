@@ -1,4 +1,4 @@
-package tech.lolli.toolbox
+package com.surlor.ai
 
 import android.app.*
 import android.content.Intent
@@ -20,8 +20,8 @@ class ForegroundService : Service() {
     private val chanId = "ForegroundServiceChannel"
     private val NOTIFICATION_ID = 1000
     private val ACTION_STOP_FOREGROUND = "ACTION_STOP_FOREGROUND"
-    private val ACTION_UPDATE_SESSIONS = "tech.lolli.toolbox.ACTION_UPDATE_SESSIONS"
-    private val ACTION_DISCONNECT_SESSION = "tech.lolli.toolbox.ACTION_DISCONNECT_SESSION"
+    private val ACTION_UPDATE_SESSIONS = "com.surlor.ai.ACTION_UPDATE_SESSIONS"
+    private val ACTION_DISCONNECT_SESSION = "com.surlor.ai.ACTION_DISCONNECT_SESSION"
 
     private var isFgStarted = false
     private val postedIds = mutableSetOf<Int>()
@@ -32,7 +32,7 @@ class ForegroundService : Service() {
     private fun logError(message: String, error: Throwable? = null) {
         Log.e("ForegroundService", message, error)
         try {
-            val logFile = File(getExternalFilesDir(null), "server_box.log")
+            val logFile = File(getExternalFilesDir(null), "surlor_ai.log")
             val timestamp = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(Date())
             val logMessage = "$timestamp [ForegroundService] ERROR: $message\n${error?.stackTraceToString() ?: ""}\n"
             logFile.appendText(logMessage)
@@ -75,7 +75,7 @@ class ForegroundService : Service() {
             return when (action) {
                 ACTION_STOP_FOREGROUND -> {
                     // Notify Flutter to stop all connections before stopping service
-                    val stopAllIntent = Intent("tech.lolli.toolbox.STOP_ALL_CONNECTIONS")
+                    val stopAllIntent = Intent("com.surlor.ai.STOP_ALL_CONNECTIONS")
                     sendBroadcast(stopAllIntent)
                     clearAll()
                     stopForegroundService()
@@ -185,7 +185,7 @@ class ForegroundService : Service() {
         val earliestStartTime = sessions.minOfOrNull { it.startWhen } ?: System.currentTimeMillis()
 
         val title = when (count) {
-            0 -> "Server Box"
+            0 -> "Surlor AI"
             1 -> sessions.first().title
             else -> "SSH sessions: $count active"
         }

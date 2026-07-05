@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 abstract final class Defaults {
-  static const primaryColor = Color.fromARGB(255, 145, 58, 31);
+  /// Surlor AI 主色：活力橙 #FF8C00
+  static const primaryColor = Color.fromARGB(255, 255, 140, 0);
 
   static const updateInterval = 3;
 

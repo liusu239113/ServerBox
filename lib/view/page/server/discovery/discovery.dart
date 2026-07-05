@@ -2,9 +2,9 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/core/service/ssh_discovery.dart';
-import 'package:server_box/data/model/server/discovery_result.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/core/service/ssh_discovery.dart';
+import 'package:surlor_ai/data/model/server/discovery_result.dart';
 
 part 'widget.dart';
 

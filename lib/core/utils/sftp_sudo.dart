@@ -4,11 +4,11 @@ import 'dart:io';
 import 'package:dartssh2/dartssh2.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/core/extension/ssh_client.dart';
-import 'package:server_box/core/utils/shell_quote.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/core/extension/ssh_client.dart';
+import 'package:surlor_ai/core/utils/shell_quote.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 final _octalPermReg = RegExp(r'^[0-7]{3,4}$');
 

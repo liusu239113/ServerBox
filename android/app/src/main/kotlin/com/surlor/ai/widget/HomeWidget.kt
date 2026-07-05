@@ -1,4 +1,4 @@
-package tech.lolli.toolbox.widget
+package com.surlor.ai.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import org.json.JSONObject
 import org.json.JSONException
-import tech.lolli.toolbox.R
+import com.surlor.ai.R
 import java.net.URL
 import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
@@ -122,7 +122,7 @@ class HomeWidget : AppWidgetProvider() {
                 requestMethod = "GET"
                 connectTimeout = NETWORK_TIMEOUT.toInt()
                 readTimeout = NETWORK_TIMEOUT.toInt()
-                setRequestProperty("User-Agent", "ServerBox-Widget/1.0")
+                setRequestProperty("User-Agent", "SurlorAI-Widget/1.0")
                 setRequestProperty("Accept", "application/json")
             }
 

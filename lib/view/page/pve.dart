@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/core/utils/refresh_interval.dart';
-import 'package:server_box/core/utils/version.dart';
-import 'package:server_box/data/model/app/error.dart';
-import 'package:server_box/data/model/server/pve.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/provider/pve.dart';
-import 'package:server_box/view/widget/percent_circle.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/core/utils/refresh_interval.dart';
+import 'package:surlor_ai/core/utils/version.dart';
+import 'package:surlor_ai/data/model/app/error.dart';
+import 'package:surlor_ai/data/model/server/pve.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/provider/pve.dart';
+import 'package:surlor_ai/view/widget/percent_circle.dart';
 
 final class PvePageArgs {
   final Spi spi;

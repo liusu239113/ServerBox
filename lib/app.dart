@@ -3,12 +3,12 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:fl_lib/generated/l10n/lib_l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:server_box/core/app_navigator.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/data/res/build_data.dart';
-import 'package:server_box/data/res/store.dart';
-import 'package:server_box/generated/l10n/l10n.dart';
-import 'package:server_box/view/page/home.dart';
+import 'package:surlor_ai/core/app_navigator.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/data/res/build_data.dart';
+import 'package:surlor_ai/data/res/store.dart';
+import 'package:surlor_ai/generated/l10n/l10n.dart';
+import 'package:surlor_ai/view/page/home.dart';
 
 part 'intro.dart';
 
@@ -60,16 +60,242 @@ class _MyAppState extends State<MyApp> {
 
     return _buildApp(
       context,
-      light: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: UIs.colorSeed,
-        appBarTheme: AppBarTheme(scrolledUnderElevation: 0.0),
+      light: _buildLightTheme(colorSeed),
+      dark: _buildDarkTheme(colorSeed),
+    );
+  }
+
+  /// Surlor AI 浅色主题 - 橙色 + 暖灰
+  ThemeData _buildLightTheme(Color seed) {
+    final base = ColorScheme.fromSeed(
+      seedColor: seed,
+      brightness: Brightness.light,
+    );
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: base,
+      appBarTheme: AppBarTheme(
+        scrolledUnderElevation: 0.0,
+        backgroundColor: base.surfaceContainerLow,
+        foregroundColor: base.onSurface,
+        elevation: 0,
       ),
-      dark: ThemeData(
-        useMaterial3: true,
-        brightness: Brightness.dark,
-        colorSchemeSeed: UIs.colorSeed,
-        appBarTheme: AppBarTheme(scrolledUnderElevation: 0.0),
+      cardTheme: CardThemeData(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        clipBehavior: Clip.antiAlias,
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: base.surfaceContainerLow,
+        indicatorColor: seed.withOpacity(0.15),
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+      ),
+      navigationRailTheme: NavigationRailThemeData(
+        backgroundColor: base.surfaceContainerLow,
+        indicatorColor: seed.withOpacity(0.15),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: seed,
+        foregroundColor: Colors.white,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: base.surfaceContainerLow,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+      ),
+      dialogTheme: DialogThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: base.surfaceContainerHighest.withOpacity(0.5),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide.none,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: seed, width: 1.5),
+        ),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      ),
+      listTileTheme: ListTileThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      chipTheme: ChipThemeData(
+        selectedColor: seed.withOpacity(0.2),
+        side: BorderSide(color: seed.withOpacity(0.3)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+    );
+  }
+
+  /// Surlor AI 深色主题 - 终端风格（深灰底 + 橙色高亮）
+  ThemeData _buildDarkTheme(Color seed) {
+    // 终端风格配色：接近 VS Code / Warp 的暗色调
+    final darkBg = const Color(0xFF1E1E1E);       // 终端黑
+    const surfaceDark = Color(0xFF252526);       // 表面深色
+    const surfaceMid = Color(0xFF2D2D2D);        // 表面中色
+    const surfaceHigh = Color(0xFF3C3C3C);       // 表面亮色
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      colorScheme: ColorScheme.dark(
+        primary: seed,
+        onPrimary: Colors.white,
+        secondary: const Color(0xFFFF9500),       // 亮橙辅助色
+        surface: surfaceDark,
+        onSurface: const Color(0xFFD4D4D4),      // 浅灰文字
+        surfaceContainerLowest: darkBg,
+        surfaceContainerLow: surfaceDark,
+        surfaceContainer: surfaceMid,
+        surfaceContainerHigh: surfaceHigh,
+        surfaceContainerHighest: const Color(0xFF4A4A4A),
+        error: const Color(0xFFF44336),
+        onError: Colors.white,
+        outline: const Color(0xFF555555),
+        outlineVariant: const Color(0xFF3A3A3A),
+        inverseSurface: seed,
+      ),
+      scaffoldBackgroundColor: darkBg,
+      appBarTheme: AppBarTheme(
+        scrolledUnderElevation: 0.0,
+        backgroundColor: surfaceDark,
+        foregroundColor: const Color(0xFFE0E0E0),
+        elevation: 0,
+      ),
+      cardTheme: CardThemeData(
+        elevation: 3,
+        color: surfaceMid,
+        shadowColor: Colors.black54,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: const Color(0xFF3A3A3A), width: 0.5),
+        ),
+        clipBehavior: Clip.antiAlias,
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: surfaceDark,
+        indicatorColor: seed.withOpacity(0.25),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const TextStyle(color: Color(0xFFFF8C00), fontWeight: FontWeight.w600);
+          }
+          return const TextStyle(color: Color(0xFF888888));
+        }),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const IconThemeData(color: Color(0xFFFF8C00));
+          }
+          return const IconThemeData(color: Color(0xFF777777));
+        }),
+      ),
+      navigationRailTheme: NavigationRailThemeData(
+        backgroundColor: surfaceDark,
+        indicatorColor: seed.withOpacity(0.25),
+        selectedIconTheme: const IconThemeData(color: Color(0xFFFF8C00)),
+        unselectedIconTheme: const IconThemeData(color: Color(0xFF666666)),
+      ),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: seed,
+        foregroundColor: Colors.white,
+        elevation: 4,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: surfaceMid,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: surfaceMid,
+        titleTextStyle: const TextStyle(
+          color: Color(0xFFE0E0E0),
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: BorderSide(color: const Color(0xFF3A3A3A)),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: surfaceHigh.withOpacity(0.6),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Color(0xFF444444)),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Color(0xFFFF8C00), width: 1.5),
+        ),
+        hintStyle: const TextStyle(color: Color(0xFF666666)),
+        labelStyle: const TextStyle(color: Color(0xFFFF8C00)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      ),
+      listTileTheme: ListTileThemeData(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        iconColor: const Color(0xFFAAAAAA),
+      ),
+      chipTheme: ChipThemeData(
+        backgroundColor: surfaceHigh,
+        selectedColor: seed.withOpacity(0.3),
+        side: const BorderSide(color: Color(0xFF555555)),
+        labelStyle: const TextStyle(color: Color(0xFFDDDDDD)),
+        secondaryLabelStyle: const TextStyle(color: Color(0xFFBBBBBB)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      dividerTheme: DividerThemeData(
+        color: const Color(0xFF333333),
+        thickness: 1,
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return seed;
+          return const Color(0xFF666666);
+        }),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) return seed.withOpacity(0.5);
+          return const Color(0xFF444444);
+        }),
+      ),
+      sliderTheme: SliderThemeData(
+        activeTrackColor: seed,
+        thumbColor: seed,
+        inactiveTrackColor: const Color(0xFF444444),
+        overlayColor: seed.withOpacity(0.2),
+      ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: seed,
+        linearTrackColor: const Color(0xFF333333),
+        circularTrackColor: const Color(0xFF333333),
+      ),
+      tooltipTheme: TooltipThemeData(
+        decoration: BoxDecoration(
+          color: const Color(0xFF333333),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: const Color(0xFF555555)),
+        ),
+        textStyle: const TextStyle(color: Color(0xFFDDDDDD)),
+      ),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: surfaceMid,
+        contentTextStyle: const TextStyle(color: Color(0xFFE0E0E0)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: surfaceDark,
+        selectedItemColor: seed,
+        unselectedItemColor: const Color(0xFF666666),
+      ),
+      tabBarTheme: TabBarThemeData(
+        indicatorColor: seed,
+        labelColor: seed,
+        unselectedLabelColor: const Color(0xFF777777),
       ),
     );
   }
@@ -77,20 +303,8 @@ class _MyAppState extends State<MyApp> {
   Widget _buildDynamicColor(BuildContext context) {
     return DynamicColorBuilder(
       builder: (light, dark) {
-        final lightSeed = light?.primary;
-        final darkSeed = dark?.primary;
-
-        final lightTheme = ThemeData(
-          useMaterial3: true,
-          colorSchemeSeed: lightSeed,
-          appBarTheme: AppBarTheme(scrolledUnderElevation: 0.0),
-        );
-        final darkTheme = ThemeData(
-          useMaterial3: true,
-          brightness: Brightness.dark,
-          colorSchemeSeed: darkSeed,
-          appBarTheme: AppBarTheme(scrolledUnderElevation: 0.0),
-        );
+        final lightSeed = light?.primary ?? UIs.colorSeed;
+        final darkSeed = dark?.primary ?? UIs.colorSeed;
 
         if (context.isDark && dark != null) {
           UIs.primaryColor = dark.primary;
@@ -104,7 +318,11 @@ class _MyAppState extends State<MyApp> {
           UIs.colorSeed = fallbackColor;
         }
 
-        return _buildApp(context, light: lightTheme, dark: darkTheme);
+        return _buildApp(
+          context,
+          light: _buildLightTheme(lightSeed),
+          dark: _buildDarkTheme(darkSeed),
+        );
       },
     );
   }
@@ -125,7 +343,7 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
       key: ValueKey(locale),
-      restorationScopeId: 'serverbox',
+      restorationScopeId: 'surlor_ai',
       navigatorKey: AppNavigator.key,
       builder: ResponsivePoints.builder,
       locale: locale,

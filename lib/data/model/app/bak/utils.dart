@@ -1,6 +1,6 @@
 import 'package:fl_lib/fl_lib.dart';
-import 'package:server_box/data/model/app/bak/backup.dart';
-import 'package:server_box/data/model/app/bak/backup2.dart';
+import 'package:surlor_ai/data/model/app/bak/backup.dart';
+import 'package:surlor_ai/data/model/app/bak/backup2.dart';
 
 abstract final class MergeableUtils {
   static (Mergeable, String) fromJsonString(String json, [String? password]) {

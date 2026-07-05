@@ -1,13 +1,13 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:get_it/get_it.dart';
-import 'package:server_box/data/store/connection_stats.dart';
-import 'package:server_box/data/store/container.dart';
-import 'package:server_box/data/store/history.dart';
-import 'package:server_box/data/store/port_forward.dart';
-import 'package:server_box/data/store/private_key.dart';
-import 'package:server_box/data/store/server.dart';
-import 'package:server_box/data/store/setting.dart';
-import 'package:server_box/data/store/snippet.dart';
+import 'package:surlor_ai/data/store/connection_stats.dart';
+import 'package:surlor_ai/data/store/container.dart';
+import 'package:surlor_ai/data/store/history.dart';
+import 'package:surlor_ai/data/store/port_forward.dart';
+import 'package:surlor_ai/data/store/private_key.dart';
+import 'package:surlor_ai/data/store/server.dart';
+import 'package:surlor_ai/data/store/setting.dart';
+import 'package:surlor_ai/data/store/snippet.dart';
 
 final GetIt getIt = GetIt.instance;
 

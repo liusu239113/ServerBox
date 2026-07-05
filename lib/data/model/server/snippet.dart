@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:fl_lib/fl_lib.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
 import 'package:xterm/core.dart';
 
 part 'snippet.g.dart';

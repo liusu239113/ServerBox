@@ -5,12 +5,12 @@ import 'package:dartssh2/dartssh2.dart';
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:server_box/core/app_navigator.dart';
-import 'package:server_box/core/extension/context/locale.dart';
-import 'package:server_box/core/utils/proxy_command_socket.dart';
-import 'package:server_box/data/model/app/error.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
-import 'package:server_box/data/res/store.dart';
+import 'package:surlor_ai/core/app_navigator.dart';
+import 'package:surlor_ai/core/extension/context/locale.dart';
+import 'package:surlor_ai/core/utils/proxy_command_socket.dart';
+import 'package:surlor_ai/data/model/app/error.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/res/store.dart';
 
 /// Must put this func out of any Class.
 ///
