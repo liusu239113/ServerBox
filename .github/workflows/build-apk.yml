@@ -1,4 +1,4 @@
-name: Build Android APK & Release
+﻿name: Build Android APK & Release
 
 on:
   push:
@@ -13,6 +13,9 @@ on:
         options:
           - debug
           - release
+
+permissions:
+  contents: write
 
 env:
   FLUTTER_VERSION: '3.44.4'
