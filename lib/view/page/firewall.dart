@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:surlor_ai/core/extension/ssh_client.dart';
 import 'package:surlor_ai/core/route.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
 import 'package:surlor_ai/data/provider/server/single.dart';
 import 'package:surlor_ai/view/page/ssh/page/page.dart';
 

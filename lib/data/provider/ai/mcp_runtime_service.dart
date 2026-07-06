@@ -493,7 +493,13 @@ class _McpProcess {
       rows.add({
         'name': name,
         'path': entity.path,
-        'type': stat.type.name,
+        'type': switch (stat.type) {
+          FileSystemEntityType.directory => 'directory',
+          FileSystemEntityType.file => 'file',
+          FileSystemEntityType.link => 'link',
+          FileSystemEntityType.notFound => 'notFound',
+          _ => 'other',
+        },
         'size': stat.size,
         'modified': stat.modified.toIso8601String(),
       });
