@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/provider/ai/ask_ai.dart';
+import 'package:surlor_ai/data/provider/ai/ask_ai.dart';
 
 void main() {
   group('AskAiRepository.composeChatCompletionsUri', () {

@@ -1,7 +1,7 @@
-import 'package:server_box/data/ssh/tmux/tmux_launch_plan.dart';
-import 'package:server_box/data/ssh/tmux/tmux_restore_state.dart';
-import 'package:server_box/data/ssh/tmux/tmux_session.dart';
-import 'package:server_box/data/ssh/tmux/tmux_session_info.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_launch_plan.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_restore_state.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session_info.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -42,11 +42,11 @@ void main() {
 
     test('uses new-session -A for auto/new session choice', () {
       final plan = buildChosenTmuxLaunchPlan(
-        const TmuxAttachNew(sessionName: 'server_box'),
+        const TmuxAttachNew(sessionName: 'surlor_ai'),
       );
 
-      expect(plan.command, "tmux new-session -A -s 'server_box'");
-      expect(plan.sessionName, 'server_box');
+      expect(plan.command, "tmux new-session -A -s 'surlor_ai'");
+      expect(plan.sessionName, 'surlor_ai');
       expect(plan.windowIndex, isNull);
     });
 

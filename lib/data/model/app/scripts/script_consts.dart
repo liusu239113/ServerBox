@@ -5,14 +5,14 @@ class ScriptConstants {
   const ScriptConstants._();
 
   // Script file names
-  static const String scriptFile = 'srvboxm_v${BuildData.script}.sh';
-  static const String scriptFileWindows = 'srvboxm_v${BuildData.script}.ps1';
+  static const String scriptFile = 'surlor_ai_v${BuildData.script}.sh';
+  static const String scriptFileWindows = 'surlor_ai_v${BuildData.script}.ps1';
 
   // Script directories
-  static const String scriptDirHome = '~/.config/server_box';
-  static const String scriptDirTmp = '/tmp/server_box';
-  static const String scriptDirHomeWindows = '%USERPROFILE%/.config/server_box';
-  static const String scriptDirTmpWindows = '%TEMP%/server_box';
+  static const String scriptDirHome = '~/.config/surlor_ai';
+  static const String scriptDirTmp = '/tmp/surlor_ai';
+  static const String scriptDirHomeWindows = '%USERPROFILE%/.config/surlor_ai';
+  static const String scriptDirTmpWindows = '%TEMP%/surlor_ai';
 
   // Command separators and dividers
   static const String separator = 'SrvBoxSep';
@@ -84,7 +84,7 @@ class ScriptConstants {
   static const String unixScriptHeader =
       '''
 #!/bin/sh
-# Script for ServerBox app v1.0.${BuildData.build}
+# Script for Surlor AI app v1.0.${BuildData.build}
 # DO NOT delete this file while app is running
 
 export LANG=en_US.UTF-8
@@ -104,7 +104,7 @@ exec 2>/dev/null
 
   static const String windowsScriptHeader =
       '''
-# PowerShell script for ServerBox app v1.0.${BuildData.build}
+# PowerShell script for Surlor AI app v1.0.${BuildData.build}
 # DO NOT delete this file while app is running
 
 \$ErrorActionPreference = "SilentlyContinue"

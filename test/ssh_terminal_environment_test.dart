@@ -1,4 +1,4 @@
-import 'package:server_box/data/ssh/ssh_terminal_environment.dart';
+import 'package:surlor_ai/data/ssh/ssh_terminal_environment.dart';
 import 'package:test/test.dart';
 
 void main() {

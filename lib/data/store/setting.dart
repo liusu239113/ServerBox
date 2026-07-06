@@ -31,7 +31,7 @@ class SettingStore extends HiveStore {
   late final textFactor = propertyDefault('textFactor', 1.0);
 
   /// The seed of color scheme (Surlor AI Orange: #FF8C00)
-  late final colorSeed = propertyDefault('primaryColor', 4294901760);
+  late final colorSeed = propertyDefault('primaryColor', 0xFFFF8C00);
 
   late final serverStatusUpdateInterval = propertyDefault(
     'serverStatusUpdateInterval',
@@ -42,7 +42,7 @@ class SettingStore extends HiveStore {
   late final maxRetryCount = propertyDefault('maxRetryCount', 2);
 
   // Night mode: 0 -> auto, 1 -> light, 2 -> dark, 3 -> AMOLED, 4 -> AUTO-AMOLED
-  late final themeMode = propertyDefault('themeMode', 0);
+  late final themeMode = propertyDefault('themeMode', 2);
 
   // Font file path
   late final fontPath = propertyDefault('fontPath', '');
@@ -71,7 +71,7 @@ class SettingStore extends HiveStore {
   late final termFontSize = propertyDefault('termFontSize', 13.0);
 
   // Locale
-  late final locale = propertyDefault('locale', '');
+  late final locale = propertyDefault('locale', 'zh');
 
   // SSH virtual key (ctrl | alt) auto turn off
   late final sshVirtualKeyAutoOff = propertyDefault(
@@ -128,7 +128,7 @@ class SettingStore extends HiveStore {
     isIOS,
   );
 
-  late final autoCheckAppUpdate = propertyDefault('autoCheckAppUpdate', true);
+  late final autoCheckAppUpdate = propertyDefault('autoCheckAppUpdate', false);
 
   /// Display server tab function buttons on the bottom of each server card if [true]
   ///
@@ -175,10 +175,27 @@ class SettingStore extends HiveStore {
   /// Terminal AI helper configuration
   late final askAiBaseUrl = propertyDefault(
     'askAiBaseUrl',
-    'https://api.openai.com',
+    'https://api.deepseek.com/v1',
   );
   late final askAiApiKey = propertyDefault('askAiApiKey', '');
-  late final askAiModel = propertyDefault('askAiModel', 'gpt-5.4-mini');
+  late final askAiModel = propertyDefault('askAiModel', 'deepseek-chat');
+  late final askAiProfiles = propertyDefault<String>('askAiProfiles', '[]');
+  late final askAiCurrentProfileId = propertyDefault(
+    'askAiCurrentProfileId',
+    'default',
+  );
+  late final askAiDefaultServerId = propertyDefault('askAiDefaultServerId', '');
+  late final askAiWorkspacePath = propertyDefault('askAiWorkspacePath', '');
+  late final askAiSupportText = propertyDefault('askAiSupportText', true);
+  late final askAiSupportImage = propertyDefault('askAiSupportImage', false);
+  late final askAiSupportVideo = propertyDefault('askAiSupportVideo', false);
+  late final askAiSupportTools = propertyDefault('askAiSupportTools', true);
+  late final askAiChatHistory = propertyDefault<String>('askAiChatHistory', '[]');
+  late final askAiConversations = propertyDefault<String>('askAiConversations', '[]');
+  late final askAiMcpServers = propertyDefault<String>('askAiMcpServers', '[]');
+  late final askAiSkills = propertyDefault<String>('askAiSkills', '[]');
+  late final askAiAgents = propertyDefault<String>('askAiAgents', '[]');
+  late final askAiCurrentAgentId = propertyDefault('askAiCurrentAgentId', 'default');
 
   late final serverFuncBtns = listProperty(
     'serverBtns',
@@ -321,7 +338,7 @@ class SettingStore extends HiveStore {
   /// Whether to show the tmux session selector dialog on connect.
   late final tmuxShowSelector = propertyDefault('tmuxShowSelector', true);
 
-  /// Default tmux session name. Empty string means use 'server_box'.
+  /// Default tmux session name. Empty string means use 'surlor_ai'.
   late final tmuxSessionName = propertyDefault('tmuxSessionName', '');
 
   /// Migrate sshConnectionMode from old int values (-1/0/1) to bool.

@@ -735,7 +735,7 @@ extension _Init on SSHPageState {
   }) async {
     final showSelector = Stores.setting.tmuxShowSelector.fetch();
     final defaultName = Stores.setting.tmuxSessionName.fetch();
-    final sessionName = defaultName.isEmpty ? 'server_box' : defaultName;
+    final sessionName = defaultName.isEmpty ? 'surlor_ai' : defaultName;
 
     TmuxAttachChoice? choice;
 
@@ -777,7 +777,7 @@ extension _Init on SSHPageState {
       if (!mounted) return;
 
       final defaultName = Stores.setting.tmuxSessionName.fetch();
-      final sessionName = defaultName.isEmpty ? 'server_box' : defaultName;
+      final sessionName = defaultName.isEmpty ? 'surlor_ai' : defaultName;
 
       final choice = await showTmuxSessionSelectorWithSkip(
         context,

@@ -1,4 +1,4 @@
-import 'package:server_box/data/ssh/tmux/tmux_command_builder.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_command_builder.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -36,8 +36,8 @@ void main() {
         "$tmuxBin attach-session -t 'main:2'",
       );
       expect(
-        TmuxCommandBuilder.newSessionOrAttach('server_box', tmuxBin: tmuxBin),
-        "$tmuxBin new-session -A -s 'server_box'",
+        TmuxCommandBuilder.newSessionOrAttach('surlor_ai', tmuxBin: tmuxBin),
+        "$tmuxBin new-session -A -s 'surlor_ai'",
       );
     });
 
@@ -47,8 +47,8 @@ void main() {
 
     test('newSessionOrAttach builds correct command', () {
       expect(
-        TmuxCommandBuilder.newSessionOrAttach('server_box'),
-        "tmux new-session -A -s 'server_box'",
+        TmuxCommandBuilder.newSessionOrAttach('surlor_ai'),
+        "tmux new-session -A -s 'surlor_ai'",
       );
     });
 

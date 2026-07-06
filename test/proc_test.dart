@@ -1,4 +1,4 @@
-import 'package:server_box/data/model/server/proc.dart';
+import 'package:surlor_ai/data/model/server/proc.dart';
 import 'package:test/test.dart';
 
 void main() {

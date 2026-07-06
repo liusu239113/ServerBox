@@ -462,7 +462,7 @@ extension _Actions on _SftpPageState {
     if (pwd == null) return false;
 
     final tmpPath =
-        '/tmp/serverbox-upload-${DateTime.now().microsecondsSinceEpoch}-$fileName';
+        '/tmp/surlor-ai-upload-${DateTime.now().microsecondsSinceEpoch}-$fileName';
     final completer = Completer();
     final req = SftpReq(
       widget.args.spi,

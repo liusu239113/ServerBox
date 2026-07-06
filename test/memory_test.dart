@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/server/memory.dart';
+import 'package:surlor_ai/data/model/server/memory.dart';
 
 void main() {
   group('Memory Model Tests', () {

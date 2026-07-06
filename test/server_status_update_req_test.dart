@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/app/scripts/cmd_types.dart';
-import 'package:server_box/data/model/server/disk.dart';
-import 'package:server_box/data/model/server/sensors.dart';
-import 'package:server_box/data/model/server/server.dart';
-import 'package:server_box/data/model/server/server_status_update_req.dart';
-import 'package:server_box/data/model/server/system.dart';
-import 'package:server_box/data/res/status.dart';
+import 'package:surlor_ai/data/model/app/scripts/cmd_types.dart';
+import 'package:surlor_ai/data/model/server/disk.dart';
+import 'package:surlor_ai/data/model/server/sensors.dart';
+import 'package:surlor_ai/data/model/server/server.dart';
+import 'package:surlor_ai/data/model/server/server_status_update_req.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
+import 'package:surlor_ai/data/res/status.dart';
 
 void main() {
   group('Server status snapshot parsing', () {

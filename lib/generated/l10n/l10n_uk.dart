@@ -353,7 +353,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get fgServiceTip =>
-      'Після увімкнення деякі моделі пристроїв можуть вилітати. Вимкнення може призвести до того, що деякі моделі не зможуть підтримувати SSH-з\'єднання у фоновому режимі. Будь ласка, дозвольте ServerBox права на сповіщення, фонову роботу та самопробудження в системних налаштуваннях.';
+      'Після увімкнення деякі моделі пристроїв можуть вилітати. Вимкнення може призвести до того, що деякі моделі не зможуть підтримувати SSH-з\'єднання у фоновому режимі. Будь ласка, дозвольте Surlor AI права на сповіщення, фонову роботу та самопробудження в системних налаштуваннях.';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -1044,7 +1044,7 @@ class AppLocalizationsUk extends AppLocalizations {
 
   @override
   String get writeScriptTip =>
-      'Після підключення до сервера скрипт буде записано у `~/.config/server_box` \n | `/tmp/server_box` для моніторингу стану системи. Ви можете переглянути вміст скрипта.';
+      'Після підключення до сервера скрипт буде записано у `~/.config/surlor_ai` \n | `/tmp/surlor_ai` для моніторингу стану системи. Ви можете переглянути вміст скрипта.';
 
   @override
   String get menuGitHubRepository => 'GitHub Repository';

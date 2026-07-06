@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/app/scripts/script_builders.dart';
-import 'package:server_box/data/model/app/scripts/script_consts.dart';
-import 'package:server_box/data/model/app/scripts/shell_func.dart';
-import 'package:server_box/data/model/server/system.dart';
+import 'package:surlor_ai/data/model/app/scripts/script_builders.dart';
+import 'package:surlor_ai/data/model/app/scripts/script_consts.dart';
+import 'package:surlor_ai/data/model/app/scripts/shell_func.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
 
 void main() {
   group('Script Builder Integration Tests', () {
@@ -42,7 +42,7 @@ void main() {
           );
           expect(
             script,
-            contains('PowerShell script for ServerBox'),
+            contains('PowerShell script for Surlor AI'),
             reason: 'Windows script should have PowerShell header',
           );
         } else if (builder is UnixScriptBuilder) {
@@ -152,7 +152,7 @@ void main() {
 
       expect(
         windowsBuilder.scriptHeader,
-        contains('PowerShell script for ServerBox'),
+        contains('PowerShell script for Surlor AI'),
       );
       expect(windowsBuilder.scriptHeader, contains('DO NOT delete this file'));
       expect(
@@ -161,7 +161,7 @@ void main() {
       );
 
       expect(unixBuilder.scriptHeader, contains('#!/bin/sh'));
-      expect(unixBuilder.scriptHeader, contains('Script for ServerBox'));
+      expect(unixBuilder.scriptHeader, contains('Script for Surlor AI'));
       expect(unixBuilder.scriptHeader, contains('DO NOT delete this file'));
       expect(unixBuilder.scriptHeader, contains('export LANG=en_US.UTF-8'));
     });

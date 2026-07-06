@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/server/disk.dart';
+import 'package:surlor_ai/data/model/server/disk.dart';
 
 void main() {
   group('Disk parsing', () {

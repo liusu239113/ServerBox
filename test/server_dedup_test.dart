@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/core/utils/server_dedup.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/core/utils/server_dedup.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
 
 // Mock functions to test the deduplication logic without relying on ServerStore
 List<Spi> _mockDeduplicateServers(

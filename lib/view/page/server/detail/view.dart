@@ -140,7 +140,7 @@ class _ServerDetailPageState extends ConsumerState<ServerDetailPage>
         QrShareBtn(
           data: si.spi.toJsonString(),
           tip: si.spi.name,
-          tip2: '${libL10n.server} ~ ServerBox',
+          tip2: '${libL10n.server} ~ Surlor AI',
         ),
         IconButton(
           icon: const Icon(Icons.edit),

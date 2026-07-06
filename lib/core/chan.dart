@@ -7,8 +7,8 @@ abstract final class MethodChans {
   static const _channel = MethodChannel('${Miscs.pkgName}/main_chan');
 
   /// Issue #662
-  static void startService() {
-    if (Stores.setting.fgService.fetch() != true) return;
+  static void startService({bool force = false}) {
+    if (!force && Stores.setting.fgService.fetch() != true) return;
     _channel.invokeMethod('startService');
   }
 

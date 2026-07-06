@@ -1,4 +1,4 @@
 {
-    "appName": "ServerBox",
+    "appName": "Surlor AI",
     "beforeBuild": "./make.dart before"
 }

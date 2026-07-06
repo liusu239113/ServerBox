@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/core/utils/server.dart';
+import 'package:surlor_ai/core/utils/server.dart';
 
 void main() {
   group('Jump failover errors', () {

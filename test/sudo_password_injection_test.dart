@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/core/utils/sudo_password.dart';
+import 'package:surlor_ai/core/utils/sudo_password.dart';
 import 'package:xterm/core.dart';
 
 bool hasPendingSudoPromptInOutputTail(String value) {

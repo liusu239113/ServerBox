@@ -209,17 +209,21 @@ class AskAiRepository {
 
   /// Agent 工具调用流 —— 一次完整的 AI 轮次（含工具调用）
   Stream<AgentInnerEvent> askWithTools({
-    required List<Map<String, String>> conversation,
+    required List<Map<String, dynamic>> conversation,
     required Future<String> Function(String name, Map<String, dynamic> args) onToolCall,
     String? model,
     String? baseUrl,
     String? apiKey,
+    bool enableTools = true,
+    List<Map<String, dynamic>> extraTools = const [],
   }) async* {
     final finalBaseUrl = (baseUrl ?? _settings.askAiBaseUrl.fetch()).trim();
     final finalApiKey = (apiKey ?? _settings.askAiApiKey.fetch()).trim();
     final finalModel = (model ?? _settings.askAiModel.fetch()).trim();
 
-    if (finalBaseUrl.isEmpty || finalApiKey.isEmpty || finalModel.isEmpty) {
+    final isLocalEndpoint = finalBaseUrl.contains('127.0.0.1:11434') ||
+        finalBaseUrl.contains('localhost:11434');
+    if (finalBaseUrl.isEmpty || finalModel.isEmpty || (!isLocalEndpoint && finalApiKey.isEmpty)) {
       yield AgentInnerErr('AI 配置不完整，请先配置 API 地址、Key 和模型');
       return;
     }
@@ -235,7 +239,7 @@ class AskAiRepository {
     final headers = <String, String>{
       Headers.acceptHeader: 'text/event-stream',
       Headers.contentTypeHeader: Headers.jsonContentType,
-      'Authorization': authHeader,
+      if (!isLocalEndpoint || finalApiKey.isNotEmpty) 'Authorization': authHeader,
     };
 
     final messages = <Map<String, dynamic>>[
@@ -243,11 +247,17 @@ class AskAiRepository {
         {'role': msg['role'] ?? 'user', 'content': msg['content'] ?? ''},
     ];
 
+    final tools = enableTools
+        ? <Map<String, dynamic>>[
+            ...builtinAgentTools,
+            ...extraTools,
+          ]
+        : const <Map<String, dynamic>>[];
     final requestBody = {
       'model': finalModel,
       'stream': true,
       'messages': messages,
-      'tools': builtinAgentTools,
+      if (tools.isNotEmpty) 'tools': tools,
     };
 
     Response<ResponseBody> response;
@@ -297,15 +307,14 @@ class AskAiRepository {
               // flush any pending tool builds and execute
               final toolResults = <String>[];
               for (final builder in toolBuilders.values) {
-                final cmd = builder.tryBuild(force: true);
-                if (cmd != null) {
-                  final args = _parseToolArgs(builder.arguments.toString(), cmd.toolName);
-                  try {
-                    final result = await onToolCall(cmd.toolName ?? 'unknown', args);
-                    toolResults.add(result);
-                  } catch (e) {
-                    toolResults.add('Error: $e');
-                  }
+                builder.tryBuild(force: true);
+                if (builder.name == null) continue;
+                final args = _parseToolArgs(builder.arguments.toString(), builder.name);
+                try {
+                  final result = await onToolCall(builder.name ?? 'unknown', args);
+                  toolResults.add(result);
+                } catch (e) {
+                  toolResults.add('Error: $e');
                 }
               }
               yield AgentInnerDone(contentBuffer.toString(), toolResults);
@@ -315,7 +324,7 @@ class AskAiRepository {
             Map<String, dynamic> json;
             try {
               json = jsonDecode(payload) as Map<String, dynamic>;
-            } catch (e, s) {
+            } catch (_) {
               continue;
             }
 
@@ -396,7 +405,7 @@ class AskAiRepository {
         }
         yield AgentInnerDone(contentBuffer.toString(), toolResults);
       }
-    } catch (e, s) {
+    } catch (e) {
       yield AgentInnerErr('$e', e);
       return;
     }

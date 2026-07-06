@@ -352,7 +352,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get fgServiceTip =>
-      'Setelah diaktifkan, beberapa model perangkat mungkin crash. Menonaktifkannya dapat menyebabkan beberapa model tidak dapat mempertahankan koneksi SSH di latar belakang. Harap izinkan perizinan notifikasi ServerBox, menjalankan di latar belakang, dan bangun mandiri di pengaturan sistem.';
+      'Setelah diaktifkan, beberapa model perangkat mungkin crash. Menonaktifkannya dapat menyebabkan beberapa model tidak dapat mempertahankan koneksi SSH di latar belakang. Harap izinkan perizinan notifikasi Surlor AI, menjalankan di latar belakang, dan bangun mandiri di pengaturan sistem.';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -1039,7 +1039,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get writeScriptTip =>
-      'Setelah terhubung ke server, sebuah skrip akan ditulis ke `~/.config/server_box` \n | `/tmp/server_box` untuk memantau status sistem. Anda dapat meninjau konten skrip tersebut.';
+      'Setelah terhubung ke server, sebuah skrip akan ditulis ke `~/.config/surlor_ai` \n | `/tmp/surlor_ai` untuk memantau status sistem. Anda dapat meninjau konten skrip tersebut.';
 
   @override
   String get menuGitHubRepository => 'GitHub Repository';

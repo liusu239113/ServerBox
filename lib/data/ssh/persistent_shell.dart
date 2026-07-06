@@ -187,8 +187,8 @@ final class PersistentShell {
 (
 $command
 ) 2>&1
-__server_box_exit=\$?
-printf '\\n$_donePrefix$commandId:%s\\n' "\$__server_box_exit"
+__surlor_ai_exit=\$?
+printf '\\n$_donePrefix$commandId:%s\\n' "\$__surlor_ai_exit"
 ''';
   }
 

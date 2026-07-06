@@ -179,7 +179,7 @@ extension _Widgets on _ServerEditPageState {
       type: TextInputType.text,
       label: '${l10n.remotePath} (Shell ${libL10n.install})',
       icon: Icons.folder,
-      hint: '~/.config/server_box',
+      hint: '~/.config/surlor_ai',
       suggestion: false,
     );
   }

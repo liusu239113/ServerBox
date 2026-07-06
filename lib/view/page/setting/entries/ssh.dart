@@ -659,7 +659,7 @@ extension _SSH on _AppSettingsPageState {
   Widget _buildTmuxSessionName() {
     return _setting.tmuxAuto.listenable().listenVal((autoEnabled) {
       return _setting.tmuxSessionName.listenable().listenVal((name) {
-        final displayName = name.isEmpty ? 'server_box' : name;
+        final displayName = name.isEmpty ? 'surlor_ai' : name;
         return IgnorePointer(
           ignoring: !autoEnabled,
           child: Opacity(
@@ -688,7 +688,7 @@ extension _SSH on _AppSettingsPageState {
         child: Input(
           controller: ctrl,
           autoFocus: true,
-          hint: 'server_box',
+          hint: 'surlor_ai',
           suggestion: false,
           onSubmitted: (_) => onSave(),
         ),

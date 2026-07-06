@@ -1,6 +1,7 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:surlor_ai/data/model/ai/model_registry.dart';
+import 'package:surlor_ai/data/provider/ai/ai_capability_tester.dart';
 import 'package:surlor_ai/data/provider/ai/ollama_service.dart';
 import 'package:surlor_ai/data/res/store.dart';
 
@@ -8,7 +9,7 @@ import 'package:surlor_ai/data/res/store.dart';
 ///
 /// 包含：
 /// - API 服务商选择（预设模板）
-/// - 本地模型下载与管理
+/// - 本地/自建 OpenAI 兼容服务接入
 /// - 连接测试
 class SurlorAiManagerPage extends StatefulWidget {
   const SurlorAiManagerPage({super.key});
@@ -41,8 +42,8 @@ class _SurlorAiManagerPageState extends State<SurlorAiManagerPage>
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
-            Tab(text: 'API 接口'),
-            Tab(text: '本地模型'),
+            Tab(text: 'API 配置'),
+            Tab(text: '本地/自建'),
             Tab(text: '关于'),
           ],
         ),
@@ -148,6 +149,27 @@ class _ApiProviderTabState extends State<_ApiProviderTab> {
   }
 
   Future<void> _testConnection() async {
+    final url = _baseUrlCtrl.text.trim();
+    final key = _apiKeyCtrl.text.trim();
+    final model = (_selectedModel ?? _modelCtrl.text).trim();
+    if (url.isEmpty || model.isEmpty) {
+      context.showRoundDialog(
+        title: '连接测试',
+        child: const Text('请先填写 API 地址和模型名称。'),
+        actions: [TextButton(onPressed: () => context.pop(), child: const Text('确定'))],
+      );
+      return;
+    }
+    final isLocal = url.contains('127.0.0.1:11434') || url.contains('localhost:11434');
+    if (!isLocal && key.isEmpty) {
+      context.showRoundDialog(
+        title: '连接测试',
+        child: const Text('非本地服务需要填写 API Key。'),
+        actions: [TextButton(onPressed: () => context.pop(), child: const Text('确定'))],
+      );
+      return;
+    }
+
     context.showRoundDialog(
       title: '连接测试',
       child: Column(
@@ -155,21 +177,36 @@ class _ApiProviderTabState extends State<_ApiProviderTab> {
         children: [
           const CircularProgressIndicator(),
           const SizedBox(height: 16),
-          Text('正在连接 ${_selectedPreset?.name ?? "自定义地址"}...',
-              style: UIs.textGrey),
+          Text('正在测试 $model ...', style: UIs.textGrey),
         ],
       ),
     );
 
-    await Future.delayed(const Duration(seconds: 2));
+    String resultText;
+    Object? error;
+    try {
+      final result = await AiCapabilityTester().test(
+        baseUrl: url,
+        apiKey: key,
+        model: model,
+      );
+      Stores.setting.askAiSupportText.put(result.text.supported);
+      Stores.setting.askAiSupportImage.put(result.image.supported);
+      Stores.setting.askAiSupportVideo.put(result.video.supported);
+      Stores.setting.askAiSupportTools.put(result.tools.supported);
+      resultText = '模型 $model 能力测试完成：\n${result.toHumanText()}\n\n'
+          '已根据测试结果更新文本、图像、视频、工具调用能力开关；不支持的能力会被关闭。';
+    } catch (e) {
+      error = e;
+      resultText = '连接失败：$e';
+    }
+
     if (!mounted) return;
-
     context.pop();
-
     context.showRoundDialog(
-      title: '连接结果',
-      child: const Text('连接成功！AI 功能已就绪。\n\n现在你可以在 SSH 终端中选中文字，然后点击"问 AI"按钮来使用。'),
-      actions: [TextButton(onPressed: () => context.pop(), child: const Text('太好了'))],
+      title: error == null ? '连接成功' : '连接失败',
+      child: SelectableText(resultText),
+      actions: [TextButton(onPressed: () => context.pop(), child: const Text('确定'))],
     );
   }
 
@@ -338,7 +375,7 @@ class _ApiProviderTabState extends State<_ApiProviderTab> {
   }
 }
 
-// ──────────────────── Tab 2: 本地模型管理 ────────────────────
+// ──────────────────── Tab 2: 本地/自建服务 ────────────────────
 
 class _LocalModelTab extends StatefulWidget {
   const _LocalModelTab();
@@ -498,11 +535,11 @@ class _LocalModelTabState extends State<_LocalModelTab> {
                 ]),
                 const SizedBox(height: 12),
                 const Text(
-                  '本地模型需要 Ollama 运行环境。请通过以下方式安装：',
+                  'App 内不会直接部署或运行大模型。请连接一套已经运行的 Ollama / vLLM / llama.cpp / OpenAI 兼容服务。手机端推荐把模型跑在电脑、NAS 或服务器上，再在 API 配置里填写地址。',
                   style: TextStyle(fontSize: 14),
                 ),
                 const SizedBox(height: 16),
-                const Text('方式一：Termux 安装',
+                const Text('方式一：连接电脑/NAS/服务器上的 Ollama',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
                 const SizedBox(height: 6),
                 Container(
@@ -512,16 +549,16 @@ class _LocalModelTabState extends State<_LocalModelTab> {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: const SelectableText(
-                    'curl -fsSL https://ollama.com/install.sh | sh',
+                    '在运行模型的设备上启动 Ollama，并确保手机可访问该地址。',
                     style: TextStyle(fontFamily: 'monospace', fontSize: 12, color: Color(0xFFD4D4D4)),
                   ),
                 ),
                 const SizedBox(height: 12),
-                const Text('方式二：安装 Android 应用',
+                const Text('方式二：连接自建 OpenAI 兼容接口',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
                 const SizedBox(height: 6),
                 const Text(
-                  '在 Google Play 或 F-Droid 搜索 "Ollama" 安装官方 Android 应用。',
+                  '支持 vLLM、llama.cpp、One API、New API 等兼容 /v1/chat/completions 的服务。',
                   style: TextStyle(fontSize: 13, color: Colors.grey),
                 ),
                 const SizedBox(height: 20),
@@ -538,7 +575,7 @@ class _LocalModelTabState extends State<_LocalModelTab> {
           ),
 
           const SizedBox(height: 20),
-          Text('可下载的模型', style: theme.textTheme.titleMedium),
+          Text('推荐接入的模型', style: theme.textTheme.titleMedium),
           const SizedBox(height: 8),
           ...builtinModels.map((model) => _ModelCard(
             model: model,
@@ -566,9 +603,8 @@ class _LocalModelTabState extends State<_LocalModelTab> {
               SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  '本地模型通过 Ollama 运行，数据完全不出设备，保护隐私。'
-                  '\n\n推荐使用 Qwen3 系列（中文能力最强）或 DeepSeek R1（推理能力强）。'
-                  '手机运行建议选择 4B 以下参数的模型。',
+                  '本地/自建模型需要外部运行时提供 OpenAI 兼容 API。'
+                  '\n\n如果当前设备能访问 Ollama，这里会显示已安装模型；手机端通常建议连接电脑、NAS 或服务器上的模型服务。',
                   style: TextStyle(fontSize: 13),
                 ),
               ),
@@ -580,7 +616,7 @@ class _LocalModelTabState extends State<_LocalModelTab> {
 
         Row(
           children: [
-            Text('可下载的模型', style: theme.textTheme.titleMedium),
+            Text('推荐接入的模型', style: theme.textTheme.titleMedium),
             const Spacer(),
             Text('已安装 ${_installedModels.length} 个',
                 style: TextStyle(fontSize: 12, color: Colors.grey[600])),
@@ -727,7 +763,7 @@ class _ModelCard extends StatelessWidget {
                 child: FilledButton.icon(
                   onPressed: isDownloading ? null : onDeploy,
                   icon: const Icon(Icons.download_outlined, size: 18),
-                  label: Text(isDownloading ? '下载中...' : '部署'),
+                  label: Text(isDownloading ? '拉取中...' : '通过 Ollama 拉取'),
                 ),
               ),
           ],
@@ -799,9 +835,9 @@ class _AboutTab extends StatelessWidget {
                   children: [
                     const Text('技术基础', style: TextStyle(fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
-                    Text('基于 ServerBox (Flutter) 开源项目改造\n'
-                        'UI 重做：Material 3 + 终端风格主题\n'
-                        'AI 引擎：OpenAI 兼容格式 / Ollama 本地推理',
+                    Text('移动端 AI Agent 工具箱\n'
+                        'UI：橙色像素终端风格\n'
+                        'AI 引擎：OpenAI 兼容格式 / 外部本地模型服务',
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 12, color: Colors.grey[600], height: 1.6)),
                   ],

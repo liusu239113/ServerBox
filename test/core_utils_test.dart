@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/core/utils/comparator.dart';
+import 'package:surlor_ai/core/utils/comparator.dart';
 
 void main() {
   group('ChainComparator Tests', () {

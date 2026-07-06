@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
 
 void main() {
   group('Server Edit Page Logic Tests', () {

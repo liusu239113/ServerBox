@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/core/utils/refresh_interval.dart';
-import 'package:server_box/data/res/default.dart';
+import 'package:surlor_ai/core/utils/refresh_interval.dart';
+import 'package:surlor_ai/data/res/default.dart';
 
 void main() {
   group('normalizeServerStatusRefreshSeconds', () {

@@ -1,6 +1,6 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/server/cpu.dart';
+import 'package:surlor_ai/data/model/server/cpu.dart';
 
 void main() {
   group('CPU Model Tests', () {

@@ -16,7 +16,7 @@ final class TmuxSessionSelector extends StatefulWidget {
     super.key,
     required this.sessions,
     required this.tmuxSessionFactory,
-    this.defaultSessionName = 'server_box',
+    this.defaultSessionName = 'surlor_ai',
     this.initialSessionName,
   });
 
@@ -355,7 +355,7 @@ Future<TmuxAttachChoice?> showTmuxSessionSelectorWithSkip(
   BuildContext context, {
   required List<TmuxSessionInfo> sessions,
   required Future<TmuxSession> Function() tmuxSessionFactory,
-  String defaultSessionName = 'server_box',
+  String defaultSessionName = 'surlor_ai',
   String? initialSessionName,
 }) async {
   return context.showRoundDialog<TmuxAttachChoice>(

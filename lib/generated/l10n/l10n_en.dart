@@ -352,7 +352,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fgServiceTip =>
-      'After enabling, some device models may crash. Disabling it may cause some models to be unable to maintain SSH connections in the background. Please allow ServerBox notification permissions, background running, and self-wake-up in system settings.';
+      'After enabling, some device models may crash. Disabling it may cause some models to be unable to maintain SSH connections in the background. Please allow Surlor AI notification permissions, background running, and self-wake-up in system settings.';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -1038,7 +1038,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get writeScriptTip =>
-      'After connecting to the server, a script will be written to `~/.config/server_box` \n | `/tmp/server_box` to monitor the system status. You can review the script content.';
+      'After connecting to the server, a script will be written to `~/.config/surlor_ai` \n | `/tmp/surlor_ai` to monitor the system status. You can review the script content.';
 
   @override
   String get menuGitHubRepository => 'GitHub Repository';

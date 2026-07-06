@@ -353,7 +353,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get fgServiceTip =>
-      'Na het inschakelen kunnen sommige apparaatmodellen crashen. Uitschakelen kan ertoe leiden dat sommige modellen SSH-verbindingen niet op de achtergrond kunnen behouden. Sta ServerBox notificatierechten, achtergronduitvoering en zelf-ontwaken toe in systeeminstellingen.';
+      'Na het inschakelen kunnen sommige apparaatmodellen crashen. Uitschakelen kan ertoe leiden dat sommige modellen SSH-verbindingen niet op de achtergrond kunnen behouden. Sta Surlor AI notificatierechten, achtergronduitvoering en zelf-ontwaken toe in systeeminstellingen.';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -1045,7 +1045,7 @@ class AppLocalizationsNl extends AppLocalizations {
 
   @override
   String get writeScriptTip =>
-      'Na het verbinden met de server wordt een script geschreven naar `~/.config/server_box` \n | `/tmp/server_box` om de systeemstatus te monitoren. U kunt de inhoud van het script controleren.';
+      'Na het verbinden met de server wordt een script geschreven naar `~/.config/surlor_ai` \n | `/tmp/surlor_ai` om de systeemstatus te monitoren. U kunt de inhoud van het script controleren.';
 
   @override
   String get menuGitHubRepository => 'GitHub Repository';

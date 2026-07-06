@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/app/scripts/cmd_types.dart';
-import 'package:server_box/data/model/app/scripts/shell_func.dart';
-import 'package:server_box/data/model/server/system.dart';
+import 'package:surlor_ai/data/model/app/scripts/cmd_types.dart';
+import 'package:surlor_ai/data/model/app/scripts/shell_func.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
 
 void main() {
   group('disabledCmdTypes filtering', () {

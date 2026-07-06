@@ -12,7 +12,6 @@ extension _App on _AppSettingsPageState {
       _buildLocale(),
       _buildThemeMode(),
       _buildAppColor(),
-      _buildCheckUpdate(),
       _buildHomeTabs(),
       PlatformPublicSettings.buildBioAuth,
       ?androidSettings,
@@ -91,39 +90,6 @@ extension _App on _AppSettingsPageState {
       title: Text('iOS ${libL10n.setting}'),
       trailing: const Icon(Icons.keyboard_arrow_right),
       onTap: () => IosSettingsPage.route.go(context),
-    );
-  }
-
-  Widget _buildCheckUpdate() {
-    return ListTile(
-      leading: const Icon(Icons.update),
-      title: Text(libL10n.checkUpdate),
-      subtitle: ValBuilder(
-        listenable: AppUpdateIface.newestBuild,
-        builder: (val) {
-          String display;
-          if (val != null) {
-            if (val > BuildData.build) {
-              display = libL10n.versionHasUpdate(val);
-            } else {
-              display = libL10n.versionUpdated(BuildData.build);
-            }
-          } else {
-            display = libL10n.versionUnknownUpdate(BuildData.build);
-          }
-          return Text(display, style: UIs.textGrey);
-        },
-      ),
-      onTap: () => Fns.throttle(
-        () => AppUpdateIface.doUpdate(
-          context: context,
-          build: BuildData.build,
-          githubReleasesUrl: Urls.githubReleasesApi,
-          storeUrl: Urls.appStore,
-          force: BuildMode.isDebug,
-        ),
-      ),
-      trailing: StoreSwitch(prop: _setting.autoCheckAppUpdate),
     );
   }
 

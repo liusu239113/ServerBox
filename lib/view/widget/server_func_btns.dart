@@ -16,6 +16,7 @@ import 'package:surlor_ai/data/provider/server/single.dart';
 import 'package:surlor_ai/data/provider/snippet.dart';
 import 'package:surlor_ai/data/res/store.dart';
 import 'package:surlor_ai/view/page/container/container.dart';
+import 'package:surlor_ai/view/page/firewall.dart';
 import 'package:surlor_ai/view/page/iperf.dart';
 import 'package:surlor_ai/view/page/port_forward.dart';
 import 'package:surlor_ai/view/page/process.dart';
@@ -177,6 +178,11 @@ extension ServerFuncBtnsActions on ServerFuncBtns {
         if (!_checkClient(context, spi.id, ref)) return;
         final args = SpiRequiredArgs(spi);
         PortForwardPage.route.go(context, args);
+        break;
+      case ServerFuncBtn.firewall:
+        if (!_checkClient(context, spi.id, ref)) return;
+        final args = SpiRequiredArgs(spi);
+        FirewallPage.route.go(context, args);
         break;
     }
   }

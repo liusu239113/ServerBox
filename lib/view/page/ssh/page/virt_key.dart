@@ -75,8 +75,8 @@ extension _VirtKey on SSHPageState {
         break;
       case VirtualKeyFunc.file:
         // get $PWD from SSH session with unique markers
-        const marker = 'ServerBoxOutput';
-        const markerEnd = 'ServerBoxEnd';
+        const marker = 'SurlorAIOutput';
+        const markerEnd = 'SurlorAIEnd';
         const pwdCommand = 'echo "$marker:\$PWD:$markerEnd"';
         _terminal.textInput(pwdCommand);
         _terminal.keyInput(TerminalKey.enter);

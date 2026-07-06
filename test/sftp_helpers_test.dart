@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/core/utils/shell_quote.dart';
+import 'package:surlor_ai/core/utils/shell_quote.dart';
 
 void main() {
   group('shellSingleQuote', () {

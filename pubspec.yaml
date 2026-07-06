@@ -1,7 +1,7 @@
 name: surlor_ai
-description: Surlor AI - AI-powered server management toolbox.
+description: Surlor AI - mobile AI agent and server automation toolbox.
 publish_to: "none"
-version: 1.0.1352+135200
+version: 1.0.0+1
 
 environment:
   sdk: ">=3.11.0"

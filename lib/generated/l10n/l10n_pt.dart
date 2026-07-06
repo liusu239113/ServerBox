@@ -351,7 +351,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get fgServiceTip =>
-      'Após ativar, alguns modelos de dispositivos podem travar. Desativar pode fazer com que alguns modelos não consigam manter conexões SSH em segundo plano. Por favor, permita as permissões de notificação do ServerBox, execução em segundo plano e auto-despertar nas configurações do sistema.';
+      'Após ativar, alguns modelos de dispositivos podem travar. Desativar pode fazer com que alguns modelos não consigam manter conexões SSH em segundo plano. Por favor, permita as permissões de notificação do Surlor AI, execução em segundo plano e auto-despertar nas configurações do sistema.';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -1041,7 +1041,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get writeScriptTip =>
-      'Após conectar ao servidor, um script será escrito em `~/.config/server_box` \n | `/tmp/server_box` para monitorar o status do sistema. Você pode revisar o conteúdo do script.';
+      'Após conectar ao servidor, um script será escrito em `~/.config/surlor_ai` \n | `/tmp/surlor_ai` para monitorar o status do sistema. Você pode revisar o conteúdo do script.';
 
   @override
   String get menuGitHubRepository => 'GitHub Repository';

@@ -1,4 +1,4 @@
-import 'package:server_box/data/ssh/tmux/tmux_session_info.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session_info.dart';
 import 'package:test/test.dart';
 
 void main() {

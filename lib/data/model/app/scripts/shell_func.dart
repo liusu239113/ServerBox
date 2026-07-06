@@ -2,7 +2,7 @@ import 'package:surlor_ai/data/model/app/scripts/script_builders.dart';
 import 'package:surlor_ai/data/model/app/scripts/script_consts.dart';
 import 'package:surlor_ai/data/model/server/system.dart';
 
-/// Shell functions available in the ServerBox application
+/// Shell functions available in the Surlor AI application
 enum ShellFunc {
   status('SbStatus'),
   process('SbProcess'),

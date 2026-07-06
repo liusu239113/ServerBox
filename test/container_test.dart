@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/container/ps.dart';
-import 'package:server_box/data/model/container/status.dart';
+import 'package:surlor_ai/data/model/container/ps.dart';
+import 'package:surlor_ai/data/model/container/status.dart';
 
 void main() {
   test('docker ps parse', () {

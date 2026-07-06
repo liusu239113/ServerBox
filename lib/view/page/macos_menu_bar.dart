@@ -18,7 +18,7 @@ class MacOSMenuBarManager {
     final homeTabs = Stores.setting.homeTabs.fetch();
     return [
       PlatformMenu(
-        label: 'Server Box',
+        label: 'Surlor AI',
         menus: [
           PlatformMenuItem(
             label: libL10n.about,

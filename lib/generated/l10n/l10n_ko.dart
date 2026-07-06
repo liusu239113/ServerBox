@@ -340,7 +340,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get fgServiceTip =>
-      '활성화 시 일부 기기에서 충돌이 발생할 수 있습니다. 비활성화 시 일부 기기에서 백그라운드 SSH 연결을 유지할 수 없을 수 있습니다. 시스템 설정에서 ServerBox 알림 권한, 백그라운드 실행, 자체 깨우기를 허용해 주세요.';
+      '활성화 시 일부 기기에서 충돌이 발생할 수 있습니다. 비활성화 시 일부 기기에서 백그라운드 SSH 연결을 유지할 수 없을 수 있습니다. 시스템 설정에서 Surlor AI 알림 권한, 백그라운드 실행, 자체 깨우기를 허용해 주세요.';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -1008,7 +1008,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get writeScriptTip =>
-      '서버 연결 후 시스템 상태를 모니터링하기 위한 스크립트가 `~/.config/server_box` \n | `/tmp/server_box`에 작성됩니다. 스크립트 내용을 확인할 수 있습니다.';
+      '서버 연결 후 시스템 상태를 모니터링하기 위한 스크립트가 `~/.config/surlor_ai` \n | `/tmp/surlor_ai`에 작성됩니다. 스크립트 내용을 확인할 수 있습니다.';
 
   @override
   String get menuGitHubRepository => 'GitHub 저장소';

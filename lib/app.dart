@@ -82,7 +82,7 @@ class _MyAppState extends State<MyApp> {
       ),
       cardTheme: CardThemeData(
         elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         clipBehavior: Clip.antiAlias,
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -105,7 +105,7 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       dialogTheme: DialogThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -121,12 +121,12 @@ class _MyAppState extends State<MyApp> {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
       listTileTheme: ListTileThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
       chipTheme: ChipThemeData(
         selectedColor: seed.withOpacity(0.2),
         side: BorderSide(color: seed.withOpacity(0.3)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
     );
   }
@@ -134,10 +134,10 @@ class _MyAppState extends State<MyApp> {
   /// Surlor AI 深色主题 - 终端风格（深灰底 + 橙色高亮）
   ThemeData _buildDarkTheme(Color seed) {
     // 终端风格配色：接近 VS Code / Warp 的暗色调
-    final darkBg = const Color(0xFF1E1E1E);       // 终端黑
-    const surfaceDark = Color(0xFF252526);       // 表面深色
-    const surfaceMid = Color(0xFF2D2D2D);        // 表面中色
-    const surfaceHigh = Color(0xFF3C3C3C);       // 表面亮色
+    final darkBg = const Color(0xFF12100C);       // 终端黑棕
+    const surfaceDark = Color(0xFF1B160F);       // 终端面板
+    const surfaceMid = Color(0xFF241A0E);        // 终端卡片
+    const surfaceHigh = Color(0xFF332414);       // 输入底色
 
     return ThemeData(
       useMaterial3: true,
@@ -155,8 +155,8 @@ class _MyAppState extends State<MyApp> {
         surfaceContainerHighest: const Color(0xFF4A4A4A),
         error: const Color(0xFFF44336),
         onError: Colors.white,
-        outline: const Color(0xFF555555),
-        outlineVariant: const Color(0xFF3A3A3A),
+        outline: const Color(0xFFFF8C00),
+        outlineVariant: const Color(0xFF7C4D00),
         inverseSurface: seed,
       ),
       scaffoldBackgroundColor: darkBg,
@@ -237,7 +237,7 @@ class _MyAppState extends State<MyApp> {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
       listTileTheme: ListTileThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         iconColor: const Color(0xFFAAAAAA),
       ),
       chipTheme: ChipThemeData(
@@ -246,7 +246,7 @@ class _MyAppState extends State<MyApp> {
         side: const BorderSide(color: Color(0xFF555555)),
         labelStyle: const TextStyle(color: Color(0xFFDDDDDD)),
         secondaryLabelStyle: const TextStyle(color: Color(0xFFBBBBBB)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
       dividerTheme: DividerThemeData(
         color: const Color(0xFF333333),
@@ -285,7 +285,7 @@ class _MyAppState extends State<MyApp> {
         behavior: SnackBarBehavior.floating,
         backgroundColor: surfaceMid,
         contentTextStyle: const TextStyle(color: Color(0xFFE0E0E0)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: surfaceDark,

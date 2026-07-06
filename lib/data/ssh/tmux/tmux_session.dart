@@ -122,7 +122,7 @@ final class TmuxSession {
   /// Uses `tmux new-session -A` which attaches to an existing session
   /// with the given name or creates a new one.
   String buildAutoCommand({String? sessionName}) {
-    final name = sessionName ?? 'server_box';
+    final name = sessionName ?? 'surlor_ai';
     return TmuxCommandBuilder.newSessionOrAttach(name, lang: _lang);
   }
 

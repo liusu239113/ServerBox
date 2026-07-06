@@ -729,7 +729,7 @@ abstract class AppLocalizations {
   /// No description provided for @fgServiceTip.
   ///
   /// In en, this message translates to:
-  /// **'After enabling, some device models may crash. Disabling it may cause some models to be unable to maintain SSH connections in the background. Please allow ServerBox notification permissions, background running, and self-wake-up in system settings.'**
+  /// **'After enabling, some device models may crash. Disabling it may cause some models to be unable to maintain SSH connections in the background. Please allow Surlor AI notification permissions, background running, and self-wake-up in system settings.'**
   String get fgServiceTip;
 
   /// No description provided for @fileTooLarge.
@@ -1917,7 +1917,7 @@ abstract class AppLocalizations {
   /// No description provided for @writeScriptTip.
   ///
   /// In en, this message translates to:
-  /// **'After connecting to the server, a script will be written to `~/.config/server_box` \n | `/tmp/server_box` to monitor the system status. You can review the script content.'**
+  /// **'After connecting to the server, a script will be written to `~/.config/surlor_ai` \n | `/tmp/surlor_ai` to monitor the system status. You can review the script content.'**
   String get writeScriptTip;
 
   /// No description provided for @menuGitHubRepository.

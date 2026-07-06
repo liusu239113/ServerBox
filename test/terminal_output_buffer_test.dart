@@ -1,4 +1,4 @@
-import 'package:server_box/data/ssh/terminal_output_buffer.dart';
+import 'package:surlor_ai/data/ssh/terminal_output_buffer.dart';
 import 'package:test/test.dart';
 
 void main() {

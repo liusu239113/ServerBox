@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/app/scripts/cmd_types.dart';
-import 'package:server_box/data/model/app/scripts/script_builders.dart';
-import 'package:server_box/data/model/app/scripts/shell_func.dart';
-import 'package:server_box/data/model/server/server_status_update_req.dart';
-import 'package:server_box/data/model/server/system.dart';
-import 'package:server_box/data/res/status.dart';
+import 'package:surlor_ai/data/model/app/scripts/cmd_types.dart';
+import 'package:surlor_ai/data/model/app/scripts/script_builders.dart';
+import 'package:surlor_ai/data/model/app/scripts/shell_func.dart';
+import 'package:surlor_ai/data/model/server/server_status_update_req.dart';
+import 'package:surlor_ai/data/model/server/system.dart';
+import 'package:surlor_ai/data/res/status.dart';
 
 void main() {
   group('Windows System Tests', () {
@@ -16,7 +16,7 @@ void main() {
       final builder = ScriptBuilderFactory.getBuilder(true);
       final script = builder.buildScript(null);
 
-      expect(script, contains('PowerShell script for ServerBox'));
+      expect(script, contains('PowerShell script for Surlor AI'));
       expect(script, contains('switch (\$args[0])'));
       expect(script, contains('-${ShellFunc.status.flag}'));
     });

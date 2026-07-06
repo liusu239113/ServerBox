@@ -11,7 +11,8 @@ enum ServerFuncBtn {
   snippet(),
   iperf(),
   systemd(1058),
-  portForward(1340);
+  portForward(1340),
+  firewall(1450);
 
   final int? addedVersion;
 
@@ -34,6 +35,12 @@ enum ServerFuncBtn {
       }
     }
 
+    if (firewall.addedVersion != null && cur >= firewall.addedVersion!) {
+      if (!list.contains(firewall.index)) {
+        list.add(firewall.index);
+      }
+    }
+
     if (list.length > originalLength) {
       prop.put(list);
     }
@@ -47,6 +54,7 @@ enum ServerFuncBtn {
     snippet,
     systemd,
     portForward,
+    firewall,
   ].map((e) => e.index).toList();
 
   IconData get icon => switch (this) {
@@ -58,6 +66,7 @@ enum ServerFuncBtn {
     iperf => Icons.speed,
     systemd => MingCute.plugin_2_fill,
     portForward => Icons.compare_arrows,
+    firewall => Icons.security_outlined,
   };
 
   String get toStr => switch (this) {
@@ -69,5 +78,6 @@ enum ServerFuncBtn {
     iperf => 'iperf',
     systemd => 'Systemd',
     portForward => libL10n.portForward,
+    firewall => '防火墙',
   };
 }

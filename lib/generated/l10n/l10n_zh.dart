@@ -1374,7 +1374,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get fgServiceTip =>
-      '開啟後，可能會導致部分機型閃退。關閉可能導致部分機型無法背景保持 SSH 連線。請在系統設定內允許 ServerBox 通知權限、背景執行、自我喚醒。';
+      '開啟後，可能會導致部分機型閃退。關閉可能導致部分機型無法背景保持 SSH 連線。請在系統設定內允許 Surlor AI 通知權限、背景執行、自我喚醒。';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -1969,7 +1969,7 @@ class AppLocalizationsZhTw extends AppLocalizationsZh {
 
   @override
   String get writeScriptTip =>
-      '連線到伺服器後，將會在 `~/.config/server_box` \n | `/tmp/server_box` 中寫入一個腳本來監測系統狀態。你可以審查腳本內容。';
+      '連線到伺服器後，將會在 `~/.config/surlor_ai` \n | `/tmp/surlor_ai` 中寫入一個腳本來監測系統狀態。你可以審查腳本內容。';
 
   @override
   String get podmanDockerEmulationDetected =>

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/server/net_speed.dart';
+import 'package:surlor_ai/data/model/server/net_speed.dart';
 
 void main() {
   group('NetSpeedPart Tests', () {

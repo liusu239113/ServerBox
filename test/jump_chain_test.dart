@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/core/utils/jump_chain.dart';
-import 'package:server_box/data/model/server/server_private_info.dart';
+import 'package:surlor_ai/core/utils/jump_chain.dart';
+import 'package:surlor_ai/data/model/server/server_private_info.dart';
 
 Spi _spi({
   required String id,

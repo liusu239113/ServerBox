@@ -342,7 +342,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get fgServiceTip =>
-      '有効にすると、一部の機種でクラッシュする可能性があります。無効にすると、一部の機種でバックグラウンドでのSSH接続を維持できなくなる可能性があります。システム設定でServerBoxの通知権限、バックグラウンド実行、自己起動を許可してください。';
+      '有効にすると、一部の機種でクラッシュする可能性があります。無効にすると、一部の機種でバックグラウンドでのSSH接続を維持できなくなる可能性があります。システム設定でSurlor AIの通知権限、バックグラウンド実行、自己起動を許可してください。';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -1009,7 +1009,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get writeScriptTip =>
-      'サーバーへの接続後、システムステータスを監視するスクリプトが `~/.config/server_box` \n | `/tmp/server_box` に書き込まれます。スクリプトの内容を確認できます。';
+      'サーバーへの接続後、システムステータスを監視するスクリプトが `~/.config/surlor_ai` \n | `/tmp/surlor_ai` に書き込まれます。スクリプトの内容を確認できます。';
 
   @override
   String get menuGitHubRepository => 'GitHub Repository';

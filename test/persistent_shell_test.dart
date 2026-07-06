@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/ssh/persistent_shell.dart';
+import 'package:surlor_ai/data/ssh/persistent_shell.dart';
 
 void main() {
   test('PersistentShell reuses one session across multiple commands', () async {

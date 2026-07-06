@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:server_box/data/ssh/persistent_shell.dart';
-import 'package:server_box/data/ssh/tmux/tmux_session_scanner.dart';
+import 'package:surlor_ai/data/ssh/persistent_shell.dart';
+import 'package:surlor_ai/data/ssh/tmux/tmux_session_scanner.dart';
 import 'package:test/test.dart';
 
 void main() {

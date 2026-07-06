@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:server_box/data/model/server/disk_smart.dart';
+import 'package:surlor_ai/data/model/server/disk_smart.dart';
 
 const _raw = '''
 {

@@ -352,7 +352,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get fgServiceTip =>
-      'Etkinleştirildikten sonra bazı cihaz modellerinde çökme olabilir. Devre dışı bırakmak, bazı modellerde SSH bağlantılarının arka planda sürdürülememesine neden olabilir. Lütfen sistem ayarlarında ServerBox bildirim izinlerini, arka planda çalışmayı ve otomatik uyanmayı etkinleştirin.';
+      'Etkinleştirildikten sonra bazı cihaz modellerinde çökme olabilir. Devre dışı bırakmak, bazı modellerde SSH bağlantılarının arka planda sürdürülememesine neden olabilir. Lütfen sistem ayarlarında Surlor AI bildirim izinlerini, arka planda çalışmayı ve otomatik uyanmayı etkinleştirin.';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -1039,7 +1039,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get writeScriptTip =>
-      'Sunucuya bağlandıktan sonra, sistem durumunu izlemek için `~/.config/server_box` \n | `/tmp/server_box` dizinine bir betik yazılacak. Betik içeriğini inceleyebilirsiniz.';
+      'Sunucuya bağlandıktan sonra, sistem durumunu izlemek için `~/.config/surlor_ai` \n | `/tmp/surlor_ai` dizinine bir betik yazılacak. Betik içeriğini inceleyebilirsiniz.';
 
   @override
   String get menuGitHubRepository => 'GitHub Repository';

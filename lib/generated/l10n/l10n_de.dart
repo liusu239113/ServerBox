@@ -354,7 +354,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get fgServiceTip =>
-      'Nach dem Einschalten kann es bei einigen Gerätemodellen zu Abstürzen kommen. Das Ausschalten kann bei einigen Modellen dazu führen, dass SSH-Verbindungen im Hintergrund nicht aufrechterhalten werden können. Bitte erlauben Sie ServerBox in den Systemeinstellungen Benachrichtigungsrechte, Hintergrundausführung und Selbstaktivierung.';
+      'Nach dem Einschalten kann es bei einigen Gerätemodellen zu Abstürzen kommen. Das Ausschalten kann bei einigen Modellen dazu führen, dass SSH-Verbindungen im Hintergrund nicht aufrechterhalten werden können. Bitte erlauben Sie Surlor AI in den Systemeinstellungen Benachrichtigungsrechte, Hintergrundausführung und Selbstaktivierung.';
 
   @override
   String fileTooLarge(Object file, Object size, Object sizeMax) {
@@ -1048,7 +1048,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get writeScriptTip =>
-      'Nach der Verbindung mit dem Server wird ein Skript in `~/.config/server_box` \n | `/tmp/server_box` geschrieben, um den Systemstatus zu überwachen. Sie können den Skriptinhalt überprüfen.';
+      'Nach der Verbindung mit dem Server wird ein Skript in `~/.config/surlor_ai` \n | `/tmp/surlor_ai` geschrieben, um den Systemstatus zu überwachen. Sie können den Skriptinhalt überprüfen.';
 
   @override
   String get menuGitHubRepository => 'GitHub Repository';
