@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:meta/meta.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:surlor_ai/data/model/ai/agent_tools.dart';
 import 'package:surlor_ai/data/model/ai/ask_ai_models.dart';
@@ -440,7 +439,6 @@ class AskAiRepository {
     };
   }
 
-  @visibleForTesting
   static Uri composeChatCompletionsUri(String endpoint) {
     final uri = Uri.parse(endpoint.replaceAll(RegExp(r'/+$'), ''));
     final segments = uri.pathSegments;
@@ -473,23 +471,6 @@ class AgentInnerErr extends AgentInnerEvent {
   final String msg; final Object? err;
   const AgentInnerErr(this.msg, [this.err]);
 }
-
-// SSE 解析事件
-sealed class _SseEvent { const _SseEvent(); }
-class _SseDelta extends _SseEvent {
-  final String text; const _SseDelta(this.text);
-}
-class _SseTool extends _SseEvent {
-  final int idx; final String? name; final String? args;
-  const _SseTool({required this.idx, this.name, this.args});
-}
-
-// 工具调用缓冲
-class _TcData {
-  final int idx; String? name; final StringBuffer args = StringBuffer();
-  _TcData(this.idx);
-}
-
 
 class _ToolCallBuilder {
   _ToolCallBuilder();
