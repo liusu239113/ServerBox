@@ -1,4 +1,4 @@
-﻿/// Surlor AI - Agent engine
+/// Surlor AI - Agent engine
 library;
 
 import 'dart:async';
@@ -52,10 +52,6 @@ class AgentError extends AgentEvent {
   const AgentError(this.message, [this.error]);
 }
 
-// Internal events
-class _InnerThink { final String delta; const _InnerThink(this.delta); }
-class _InnerDone { final String text; final List<String> results; const _InnerDone(this.text, this.results); }
-class _InnerErr { final String msg; final Object? err; const _InnerErr(this.msg, [this.err]); }
 class _ToolRes { final String out; final bool ok; const _ToolRes(this.out, this.ok); }
 
 /// Agent service
@@ -67,6 +63,9 @@ class AgentService {
     required Spi? spi,
     Future<bool> Function(String, Map<String, dynamic>, String)? onConfirm,
     int maxTurns = 10,
+    String? model,
+    String? baseUrl,
+    String? apiKey,
   }) async* {
     final conv = <Map<String, String>>[];
     conv.add({'role': 'system', 'content': agentSystemPrompt});
@@ -81,7 +80,9 @@ class AgentService {
       try {
         await for (final ev in _repo.askWithTools(
           conversation: conv,
-          spi: spi,
+          model: model,
+          baseUrl: baseUrl,
+          apiKey: apiKey,
           onToolCall: (name, args) async {
             final d = _checkDanger(name, args);
             if (d != 'safe' && onConfirm != null) {
@@ -93,18 +94,18 @@ class AgentService {
             return r.out;
           },
         )) {
-          if (ev is _InnerThink) { yield AgentThinking(ev.delta); }
-          else if (ev is _InnerDone) {
-            if (ev.results.isNotEmpty) {
+          if (ev is AgentInnerThink) { yield AgentThinking(ev.delta); }
+          else if (ev is AgentInnerDone) {
+            if (ev.toolResults.isNotEmpty) {
               conv.add({'role': 'assistant', 'content': ev.text});
-              conv.add({'role': 'user', 'content': 'Tool results:\n${ev.results.join('\n---\n')}\nContinue.'});
+              conv.add({'role': 'user', 'content': 'Tool results:\n${ev.toolResults.join('\n---\n')}\nContinue.'});
               break;
             } else {
               yield AgentCompleted(ev.text);
               return;
             }
           }
-          else if (ev is _InnerErr) { yield AgentError(ev.msg, ev.err); return; }
+          else if (ev is AgentInnerErr) { yield AgentError(ev.msg, ev.err); return; }
         }
       } catch (e, s) { yield AgentError('Turn $turn error: $e', e); return; }
     }

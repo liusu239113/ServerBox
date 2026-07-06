@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:surlor_ai/data/model/ai/agent_tools.dart';
 import 'package:surlor_ai/data/provider/ai/agent_service.dart';
 import 'package:surlor_ai/data/provider/ai/ask_ai.dart';
+import 'package:surlor_ai/data/provider/ai/ollama_service.dart';
 import 'package:surlor_ai/data/res/store.dart';
 
 /// 单条聊天消息
@@ -54,6 +55,11 @@ class _AiChatPageState extends State<AiChatPage> {
   final _agentService = AgentService();
   Spi? _currentSpi;
 
+  // 模型选择
+  String? _selectedModel;
+  List<String> _modelOptions = [];
+  final _ollamaService = OllamaService();
+
   @override
   void initState() {
     super.initState();
@@ -69,6 +75,26 @@ class _AiChatPageState extends State<AiChatPage> {
           '请先连接一台服务器，然后告诉我你想做什么！',
       timestamp: null,
     ));
+    _loadModels();
+  }
+
+  Future<void> _loadModels() async {
+    final apiModel = Stores.setting.askAiModel.fetch().trim();
+    final options = <String>[];
+    if (apiModel.isNotEmpty) {
+      options.add(apiModel);
+      _selectedModel = apiModel;
+    }
+    try {
+      final available = await _ollamaService.isAvailable();
+      if (available) {
+        final installed = await _ollamaService.listModels();
+        for (final m in installed) {
+          if (!options.contains(m.name)) options.add(m.name);
+        }
+      }
+    } catch (_) {}
+    if (mounted) setState(() => _modelOptions = options);
   }
 
   @override
@@ -114,10 +140,27 @@ class _AiChatPageState extends State<AiChatPage> {
   }
 
   Future<void> _runAgent(String msg) async {
+    final selected = _selectedModel;
+    String? model, baseUrl, apiKey;
+
+    if (selected != null && selected.isNotEmpty) {
+      final isLocal = await _isOllamaModel(selected);
+      if (isLocal) {
+        model = selected;
+        baseUrl = 'http://127.0.0.1:11434/v1';
+        apiKey = 'ollama';
+      } else {
+        model = selected;
+      }
+    }
+
     final events = _agentService.run(
       userMessage: msg,
       spi: _currentSpi,
       onNeedConfirm: _confirm,
+      model: model,
+      baseUrl: baseUrl,
+      apiKey: apiKey,
     );
     final buf = StringBuffer();
     final logs = <String>[];
@@ -127,6 +170,15 @@ class _AiChatPageState extends State<AiChatPage> {
       if (ev is AgentToolResult) { logs.add('${ev.success ? '✅' : '❌'} ${ev.toolName}'); _updateMsg(buf.toString(), logs); }
       if (ev is AgentCompleted) { _finalize(buf.toString(), logs); setState(() => _isLoading = false); return; }
       if (ev is AgentError) { _finalize('⚠️ ${ev.message}', logs); setState(() => _isLoading = false); return; }
+    }
+  }
+
+  Future<bool> _isOllamaModel(String modelName) async {
+    try {
+      final models = await _ollamaService.listModels();
+      return models.any((m) => m.name == modelName);
+    } catch (_) {
+      return false;
     }
   }
 
@@ -180,7 +232,26 @@ class _AiChatPageState extends State<AiChatPage> {
       appBar: AppBar(
         title: const Text('Surlor AI'),
         actions: [
-          IconButton(icon: const Icon(Icons.refresh), onPressed: () => setState(() => _messages.clear())),
+          if (_modelOptions.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(right: 4),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _modelOptions.contains(_selectedModel) ? _selectedModel : _modelOptions.first,
+                  icon: const Icon(Icons.keyboard_arrow_down, size: 18),
+                  style: const TextStyle(fontSize: 12, color: Colors.white70),
+                  dropdownColor: Theme.of(context).colorScheme.surface,
+                  items: _modelOptions.map((m) => DropdownMenuItem(
+                    value: m,
+                    child: Text(m, style: const TextStyle(fontSize: 12)),
+                  )).toList(),
+                  onChanged: (v) {
+                    if (v != null) setState(() => _selectedModel = v);
+                  },
+                ),
+              ),
+            ),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: () { setState(() => _messages.clear()); _loadModels(); }),
         ],
       ),
       body: Column(

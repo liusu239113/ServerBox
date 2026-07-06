@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:riverpod/riverpod.dart';
+import 'package:surlor_ai/data/model/ai/agent_tools.dart';
 import 'package:surlor_ai/data/model/ai/ask_ai_models.dart';
 import 'package:surlor_ai/data/res/store.dart';
 import 'package:surlor_ai/data/store/setting.dart';
@@ -206,6 +207,209 @@ class AskAiRepository {
     }
   }
 
+  /// Agent 工具调用流 —— 一次完整的 AI 轮次（含工具调用）
+  Stream<AgentInnerEvent> askWithTools({
+    required List<Map<String, String>> conversation,
+    required Future<String> Function(String name, Map<String, dynamic> args) onToolCall,
+    String? model,
+    String? baseUrl,
+    String? apiKey,
+  }) async* {
+    final finalBaseUrl = (baseUrl ?? _settings.askAiBaseUrl.fetch()).trim();
+    final finalApiKey = (apiKey ?? _settings.askAiApiKey.fetch()).trim();
+    final finalModel = (model ?? _settings.askAiModel.fetch()).trim();
+
+    if (finalBaseUrl.isEmpty || finalApiKey.isEmpty || finalModel.isEmpty) {
+      yield AgentInnerErr('AI 配置不完整，请先配置 API 地址、Key 和模型');
+      return;
+    }
+
+    final parsed = Uri.tryParse(finalBaseUrl);
+    if (parsed == null || !parsed.hasScheme || parsed.host.isEmpty) {
+      yield AgentInnerErr('API 地址格式无效: $finalBaseUrl');
+      return;
+    }
+
+    final uri = composeChatCompletionsUri(finalBaseUrl);
+    final authHeader = finalApiKey.startsWith('Bearer ') ? finalApiKey : 'Bearer $finalApiKey';
+    final headers = <String, String>{
+      Headers.acceptHeader: 'text/event-stream',
+      Headers.contentTypeHeader: Headers.jsonContentType,
+      'Authorization': authHeader,
+    };
+
+    final messages = <Map<String, dynamic>>[
+      for (final msg in conversation)
+        {'role': msg['role'] ?? 'user', 'content': msg['content'] ?? ''},
+    ];
+
+    final requestBody = {
+      'model': finalModel,
+      'stream': true,
+      'messages': messages,
+      'tools': builtinAgentTools,
+    };
+
+    Response<ResponseBody> response;
+    try {
+      response = await _dio.postUri<ResponseBody>(
+        uri,
+        data: jsonEncode(requestBody),
+        options: Options(
+          responseType: ResponseType.stream,
+          headers: headers,
+          sendTimeout: const Duration(seconds: 20),
+          receiveTimeout: const Duration(minutes: 2),
+        ),
+      );
+    } on DioException catch (e) {
+      yield AgentInnerErr(e.message ?? '请求失败', e);
+      return;
+    }
+
+    final body = response.data;
+    if (body == null) {
+      yield AgentInnerErr('空响应');
+      return;
+    }
+
+    final contentBuffer = StringBuffer();
+    final toolBuilders = <int, _ToolCallBuilder>{};
+    final utf8Stream = body.stream.cast<List<int>>().transform(utf8.decoder);
+    final carry = StringBuffer();
+
+    try {
+      await for (final chunk in utf8Stream) {
+        carry.write(chunk);
+        final segments = carry.toString().split('\n\n');
+        carry
+          ..clear()
+          ..write(segments.removeLast());
+
+        for (final segment in segments) {
+          final lines = segment.split('\n');
+          for (final rawLine in lines) {
+            final line = rawLine.trim();
+            if (line.isEmpty || !line.startsWith('data:')) continue;
+            final payload = line.substring(5).trim();
+            if (payload.isEmpty) continue;
+            if (payload == '[DONE]') {
+              // flush any pending tool builds and execute
+              final toolResults = <String>[];
+              for (final builder in toolBuilders.values) {
+                final cmd = builder.tryBuild(force: true);
+                if (cmd != null) {
+                  final args = _parseToolArgs(builder.arguments.toString(), cmd.toolName);
+                  try {
+                    final result = await onToolCall(cmd.toolName ?? 'unknown', args);
+                    toolResults.add(result);
+                  } catch (e) {
+                    toolResults.add('Error: $e');
+                  }
+                }
+              }
+              yield AgentInnerDone(contentBuffer.toString(), toolResults);
+              return;
+            }
+
+            Map<String, dynamic> json;
+            try {
+              json = jsonDecode(payload) as Map<String, dynamic>;
+            } catch (e, s) {
+              continue;
+            }
+
+            final choices = json['choices'];
+            if (choices is! List || choices.isEmpty) continue;
+
+            for (final choice in choices) {
+              if (choice is! Map<String, dynamic>) continue;
+              final delta = choice['delta'];
+              if (delta is Map<String, dynamic>) {
+                final content = delta['content'];
+                if (content is String && content.isNotEmpty) {
+                  contentBuffer.write(content);
+                  yield AgentInnerThink(content);
+                } else if (content is List) {
+                  for (final item in content) {
+                    if (item is Map<String, dynamic>) {
+                      final text = item['text'] as String?;
+                      if (text != null && text.isNotEmpty) {
+                        contentBuffer.write(text);
+                        yield AgentInnerThink(text);
+                      }
+                    }
+                  }
+                }
+
+                final toolCalls = delta['tool_calls'];
+                if (toolCalls is List) {
+                  for (final toolCall in toolCalls) {
+                    if (toolCall is! Map<String, dynamic>) continue;
+                    final index = toolCall['index'] as int? ?? 0;
+                    final builder = toolBuilders.putIfAbsent(index, _ToolCallBuilder.new);
+                    final function = toolCall['function'];
+                    if (function is Map<String, dynamic>) {
+                      builder.name ??= function['name'] as String?;
+                      final args = function['arguments'] as String?;
+                      if (args != null && args.isNotEmpty) builder.arguments.write(args);
+                    }
+                  }
+                }
+              }
+
+              final finishReason = choice['finish_reason'];
+              if (finishReason == 'tool_calls') {
+                final toolResults = <String>[];
+                for (final entry in toolBuilders.entries) {
+                  final builder = entry.value;
+                  builder.tryBuild(force: true);
+                  final args = _parseToolArgs(builder.arguments.toString(), builder.name);
+                  try {
+                    final result = await onToolCall(builder.name ?? 'unknown', args);
+                    toolResults.add(result);
+                  } catch (e) {
+                    toolResults.add('Error: $e');
+                  }
+                }
+                toolBuilders.clear();
+                yield AgentInnerDone(contentBuffer.toString(), toolResults);
+                return;
+              }
+            }
+          }
+        }
+      }
+
+      // flush remaining
+      if (contentBuffer.isNotEmpty) {
+        final toolResults = <String>[];
+        for (final builder in toolBuilders.values) {
+          builder.tryBuild(force: true);
+          final args = _parseToolArgs(builder.arguments.toString(), builder.name);
+          try {
+            final result = await onToolCall(builder.name ?? 'unknown', args);
+            toolResults.add(result);
+          } catch (e) {
+            toolResults.add('Error: $e');
+          }
+        }
+        yield AgentInnerDone(contentBuffer.toString(), toolResults);
+      }
+    } catch (e, s) {
+      yield AgentInnerErr('$e', e);
+      return;
+    }
+  }
+
+  Map<String, dynamic> _parseToolArgs(String raw, String? toolName) {
+    try {
+      return jsonDecode(raw) as Map<String, dynamic>;
+    } catch (_) {
+      return {'command': raw, 'name': toolName ?? ''};
+    }
+  }
+
   /// 构建请求体，支持自定义 tools
   Map<String, dynamic> _buildRequestBody({
     required String model,
@@ -247,20 +451,18 @@ class AskAiRepository {
   }
 }
 
-// ─────────── Agent 内部事件 ───────────
-sealed class _AgentEvent { const _AgentEvent(); }
-class _AgentThink extends _AgentEvent {
-  final String delta; const _AgentThink(this.delta);
+// ─────────── Agent 内部事件（公开供 AgentService 使用）───────────
+sealed class AgentInnerEvent { const AgentInnerEvent(); }
+class AgentInnerThink extends AgentInnerEvent {
+  final String delta; const AgentInnerThink(this.delta);
 }
-class _AgentToolDone extends _AgentEvent {
-  final List<String> results; const _AgentToolDone(this.results);
-}
-class _AgentDone extends _AgentEvent {
+class AgentInnerDone extends AgentInnerEvent {
   final String text; final List<String> toolResults;
-  const _AgentDone(this.text, this.toolResults);
+  const AgentInnerDone(this.text, this.toolResults);
 }
-class _AgentErr extends _AgentEvent {
-  final String msg; const _AgentErr(this.msg);
+class AgentInnerErr extends AgentInnerEvent {
+  final String msg; final Object? err;
+  const AgentInnerErr(this.msg, [this.err]);
 }
 
 // SSE 解析事件

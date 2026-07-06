@@ -1,6 +1,7 @@
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:surlor_ai/data/model/ai/model_registry.dart';
+import 'package:surlor_ai/data/provider/ai/ollama_service.dart';
 import 'package:surlor_ai/data/res/store.dart';
 
 /// Surlor AI 管理页面
@@ -339,12 +340,216 @@ class _ApiProviderTabState extends State<_ApiProviderTab> {
 
 // ──────────────────── Tab 2: 本地模型管理 ────────────────────
 
-class _LocalModelTab extends StatelessWidget {
+class _LocalModelTab extends StatefulWidget {
   const _LocalModelTab();
+
+  @override
+  State<_LocalModelTab> createState() => _LocalModelTabState();
+}
+
+class _LocalModelTabState extends State<_LocalModelTab> {
+  final _ollamaService = OllamaService();
+  bool _ollamaAvailable = false;
+  bool _checking = true;
+  List<OllamaModel> _installedModels = [];
+  // 下载状态：key=ollamaName, value=进度(0.0~1.0)或null(下载中未知进度)
+  final Map<String, double?> _downloadProgress = {};
+  final Map<String, String?> _downloadStatus = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _checkOllama();
+  }
+
+  Future<void> _checkOllama() async {
+    setState(() { _checking = true; _ollamaAvailable = false; });
+    try {
+      _ollamaAvailable = await _ollamaService.isAvailable();
+      if (_ollamaAvailable) {
+        _installedModels = await _ollamaService.listModels();
+      }
+    } catch (_) {
+      _ollamaAvailable = false;
+    }
+    if (mounted) setState(() => _checking = false);
+  }
+
+  bool _isInstalled(AiModelEntry model) {
+    return _installedModels.any((m) => m.name == model.ollamaName);
+  }
+
+  void _startDownload(AiModelEntry model) {
+    final name = model.ollamaName;
+    _downloadProgress[name] = null;
+    _downloadStatus[name] = '准备下载...';
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) {
+        return StatefulBuilder(builder: (ctx, setDialogState) {
+          final pct = _downloadProgress[name];
+          final status = _downloadStatus[name] ?? '';
+          final double progress = pct ?? 0.0;
+
+          Future<void> cancel() async {
+            _downloadProgress.remove(name);
+            _downloadStatus.remove(name);
+            Navigator.pop(ctx);
+          }
+
+          return AlertDialog(
+            title: Text('下载 ${model.name}'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (pct != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: LinearProgressIndicator(value: progress),
+                  )
+                else
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: LinearProgressIndicator(),
+                  ),
+                Text(status, style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                if (pct != null)
+                  Text('${(progress * 100).toStringAsFixed(1)}%',
+                      style: const TextStyle(fontSize: 12)),
+              ],
+            ),
+            actions: [
+              TextButton(onPressed: cancel, child: const Text('取消')),
+            ],
+          );
+        });
+      },
+    ).then((_) {
+      // dialog dismissed
+      _downloadProgress.remove(name);
+      _downloadStatus.remove(name);
+    });
+
+    _doDownload(model);
+  }
+
+  Future<void> _doDownload(AiModelEntry model) async {
+    final name = model.ollamaName;
+    try {
+      final stream = _ollamaService.pullModel(name);
+      await for (final ev in stream) {
+        if (!mounted) return;
+        setState(() {
+          if (ev is PullDownloading) {
+            _downloadProgress[name] = ev.pct;
+            _downloadStatus[name] = ev.status;
+          } else if (ev is PullStatus) {
+            _downloadStatus[name] = ev.msg;
+          } else if (ev is PullDone) {
+            _downloadProgress[name] = 1.0;
+            _downloadStatus[name] = '下载完成';
+          } else if (ev is PullErr) {
+            _downloadStatus[name] = '错误: ${ev.msg}';
+          }
+        });
+      }
+      // 下载完成，刷新列表
+      if (mounted) {
+        _installedModels = await _ollamaService.listModels();
+        setState(() {});
+        // 关闭进度对话框
+        if (Navigator.of(context).canPop()) Navigator.of(context).pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _downloadStatus[name] = '错误: $e');
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    if (_checking) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (!_ollamaAvailable) {
+      return ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.orange.withOpacity(0.1),
+              border: Border.all(color: Colors.orange.withOpacity(0.3)),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Row(children: [
+                  Icon(Icons.info_outline, color: Colors.orange),
+                  SizedBox(width: 8),
+                  Text('Ollama 未检测到', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                ]),
+                const SizedBox(height: 12),
+                const Text(
+                  '本地模型需要 Ollama 运行环境。请通过以下方式安装：',
+                  style: TextStyle(fontSize: 14),
+                ),
+                const SizedBox(height: 16),
+                const Text('方式一：Termux 安装',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                const SizedBox(height: 6),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1E1E1E),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const SelectableText(
+                    'curl -fsSL https://ollama.com/install.sh | sh',
+                    style: TextStyle(fontFamily: 'monospace', fontSize: 12, color: Color(0xFFD4D4D4)),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text('方式二：安装 Android 应用',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
+                const SizedBox(height: 6),
+                const Text(
+                  '在 Google Play 或 F-Droid 搜索 "Ollama" 安装官方 Android 应用。',
+                  style: TextStyle(fontSize: 13, color: Colors.grey),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: _checkOllama,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('重新检测'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 20),
+          Text('可下载的模型', style: theme.textTheme.titleMedium),
+          const SizedBox(height: 8),
+          ...builtinModels.map((model) => _ModelCard(
+            model: model,
+            isInstalled: false,
+            onDeploy: null,
+          )),
+        ],
+      );
+    }
+
+    // Ollama 可用
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
@@ -373,19 +578,45 @@ class _LocalModelTab extends StatelessWidget {
 
         const SizedBox(height: 20),
 
-        Text('可下载的模型', style: theme.textTheme.titleMedium),
+        Row(
+          children: [
+            Text('可下载的模型', style: theme.textTheme.titleMedium),
+            const Spacer(),
+            Text('已安装 ${_installedModels.length} 个',
+                style: TextStyle(fontSize: 12, color: Colors.grey[600])),
+          ],
+        ),
         const SizedBox(height: 8),
 
-        ...builtinModels.map((model) => _ModelCard(model: model)),
+        ...builtinModels.map((model) => _ModelCard(
+          model: model,
+          isInstalled: _isInstalled(model),
+          isDownloading: _downloadProgress.containsKey(model.ollamaName),
+          downloadProgress: _downloadProgress[model.ollamaName],
+          downloadStatus: _downloadStatus[model.ollamaName],
+          onDeploy: () => _startDownload(model),
+        )),
       ],
     );
   }
 }
 
 class _ModelCard extends StatelessWidget {
-  const _ModelCard({required this.model});
+  const _ModelCard({
+    required this.model,
+    this.isInstalled = false,
+    this.isDownloading = false,
+    this.downloadProgress,
+    this.downloadStatus,
+    this.onDeploy,
+  });
 
   final AiModelEntry model;
+  final bool isInstalled;
+  final bool isDownloading;
+  final double? downloadProgress;
+  final String? downloadStatus;
+  final VoidCallback? onDeploy;
 
   @override
   Widget build(BuildContext context) {
@@ -422,6 +653,17 @@ class _ModelCard extends StatelessWidget {
                                     ? Colors.orange
                                     : Colors.blue[700])),
                       )),
+                      const SizedBox(width: 6),
+                      if (isInstalled)
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.green.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: const Text('已安装',
+                              style: TextStyle(fontSize: 10, color: Colors.green)),
+                        ),
                     ],
                   ),
                 ),
@@ -445,6 +687,16 @@ class _ModelCard extends StatelessWidget {
             Text(model.description,
                 style: TextStyle(fontSize: 13, color: Colors.grey[600])),
 
+            if (isDownloading && downloadStatus != null) ...[
+              const SizedBox(height: 8),
+              LinearProgressIndicator(
+                value: downloadProgress,
+              ),
+              const SizedBox(height: 4),
+              Text(downloadStatus!,
+                  style: TextStyle(fontSize: 11, color: Colors.grey[500])),
+            ],
+
             const SizedBox(height: 8),
 
             Wrap(
@@ -460,42 +712,24 @@ class _ModelCard extends StatelessWidget {
 
             const SizedBox(height: 12),
 
-            Text('下载方式', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
-            const SizedBox(height: 6),
-            ...model.downloadSources.map((source) => Padding(
-              padding: const EdgeInsets.only(bottom: 4),
-              child: InkWell(
-                onTap: () => _showDownloadDialog(context, model, source),
-                borderRadius: BorderRadius.circular(6),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                  child: Row(
-                    children: [
-                      Icon(Icons.download_outlined, size: 16, color: Colors.orange[700]),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(source.name,
-                            style: const TextStyle(fontSize: 13)),
-                      ),
-                      if (source.note != null)
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 1),
-                          decoration: BoxDecoration(
-                            color: Colors.green.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(source.note!,
-                              style: const TextStyle(
-                                  fontSize: 9, color: Colors.green)),
-                        ),
-                      const SizedBox(width: 4),
-                      const Icon(Icons.chevron_right, size: 16),
-                    ],
-                  ),
+            if (isInstalled)
+              Row(
+                children: [
+                  Icon(Icons.check_circle, size: 16, color: Colors.green[600]),
+                  const SizedBox(width: 6),
+                  Text('已通过 Ollama 安装',
+                      style: TextStyle(fontSize: 12, color: Colors.green[600])),
+                ],
+              )
+            else
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: isDownloading ? null : onDeploy,
+                  icon: const Icon(Icons.download_outlined, size: 18),
+                  label: Text(isDownloading ? '下载中...' : '部署'),
                 ),
               ),
-            )),
           ],
         ),
       ),
@@ -509,88 +743,6 @@ class _ModelCard extends StatelessWidget {
         Icon(icon, size: 13, color: Colors.grey[500]),
         const SizedBox(width: 3),
         Text(text, style: TextStyle(fontSize: 11, color: Colors.grey[600])),
-      ],
-    );
-  }
-
-  void _showDownloadDialog(BuildContext context, AiModelEntry model, ModelDownloadSource source) {
-    context.showRoundDialog(
-      title: '下载 ${model.name}',
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('来源：${source.name}', style: const TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
-          Text('大小：${model.size}'),
-          const SizedBox(height: 4),
-          Text('量化：${model.quantization}'),
-          const SizedBox(height: 12),
-
-          if (source.url.startsWith('ollama'))
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.08),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(children: [
-                    Icon(Icons.info_outline, size: 16, color: Colors.orange),
-                    SizedBox(width: 8),
-                    Text('Ollama 一键安装', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange)),
-                  ]),
-                  SizedBox(height: 6),
-                  Text(
-                    '需要先在手机上安装 Ollama Android 应用。'
-                    '安装后打开终端执行以下命令即可自动下载并运行模型：',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  SizedBox(height: 8),
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Color(0xFF1E1E1E),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: SelectableText(
-                      source.url,
-                      style: TextStyle(
-                        fontFamily: 'monospace',
-                        fontSize: 12,
-                        color: Color(0xFFD4D4D4),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          else
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('下载链接：'),
-                const SizedBox(height: 4),
-                SelectableText(source.url,
-                    style: TextStyle(fontSize: 11, fontFamily: 'monospace')),
-                const SizedBox(height: 8),
-                Text('提示：下载 GGUF 文件后，导入到 Ollama 即可使用。',
-                    style: TextStyle(fontSize: 11, color: Colors.grey[600])),
-              ],
-            ),
-        ],
-      ),
-      actions: [
-        TextButton(onPressed: () => context.pop(), child: const Text('关闭')),
-        if (source.url.startsWith('ollama'))
-          FilledButton(
-            onPressed: () {
-              context.pop();
-            },
-            child: const Text('复制命令'),
-          ),
       ],
     );
   }
