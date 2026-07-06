@@ -405,7 +405,7 @@ printf '\n=== iptables ===\n'; (iptables -S 2>/dev/null | head -120 || true)
 printf '=== ip addr ===\n'; (ip -brief addr 2>/dev/null || ifconfig 2>/dev/null || true)
 printf '\n=== route ===\n'; (ip route 2>/dev/null || route -n 2>/dev/null || true)
 printf '\n=== dns ===\n'; (cat /etc/resolv.conf 2>/dev/null || true)
-printf '\n=== connections summary ===\n'; (ss -ant state established 2>/dev/null | awk 'NR>1 {print $1}' | sort | uniq -c || true)
+printf '\n=== connections summary ===\n'; (ss -ant state established 2>/dev/null | awk 'NR>1 {print \$1}' | sort | uniq -c || true)
 ''', stderr: true);
       return _ToolRes(o.trim(), true);
     } finally {
