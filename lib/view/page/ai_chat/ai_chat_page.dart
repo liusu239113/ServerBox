@@ -157,7 +157,7 @@ class _AiChatPageState extends State<AiChatPage> {
     final events = _agentService.run(
       userMessage: msg,
       spi: _currentSpi,
-      onNeedConfirm: _confirm,
+      onConfirm: _confirm,
       model: model,
       baseUrl: baseUrl,
       apiKey: apiKey,
