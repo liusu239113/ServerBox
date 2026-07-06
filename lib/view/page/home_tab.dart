@@ -2,6 +2,7 @@ import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:surlor_ai/data/model/app/tab.dart';
+import 'package:surlor_ai/view/page/ai_chat/ai_chat_page.dart';
 import 'package:surlor_ai/view/page/server/tab/tab.dart';
 import 'package:surlor_ai/view/page/snippet/list.dart';
 import 'package:surlor_ai/view/page/ssh/tab.dart';
@@ -14,6 +15,7 @@ extension AppTabViewX on AppTab {
       AppTab.ssh => const SSHTabPage(),
       AppTab.file => const LocalFilePage(),
       AppTab.snippet => const SnippetListPage(),
+      AppTab.aiChat => const AiChatPage(),
     };
   }
 
@@ -39,6 +41,11 @@ extension AppTabViewX on AppTab {
         label: libL10n.file,
         selectedIcon: const Icon(Icons.folder),
       ),
+      AppTab.aiChat => const NavigationDestination(
+        icon: Icon(Icons.smart_toy_outlined),
+        label: 'AI',
+        selectedIcon: Icon(Icons.smart_toy),
+      ),
     };
   }
 
@@ -63,6 +70,11 @@ extension AppTabViewX on AppTab {
         icon: const Icon(Icons.folder_open),
         label: Text(libL10n.file),
         selectedIcon: const Icon(Icons.folder),
+      ),
+      AppTab.aiChat => const NavigationRailDestination(
+        icon: Icon(Icons.smart_toy_outlined),
+        label: Text('AI'),
+        selectedIcon: Icon(Icons.smart_toy),
       ),
     };
   }
