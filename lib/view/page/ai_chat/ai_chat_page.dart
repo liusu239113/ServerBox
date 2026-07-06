@@ -1,4 +1,4 @@
-/// Surlor AI 对话页面
+﻿/// Surlor AI 对话页面
 ///
 /// 用户通过自然语言与 AI Agent 交互，
 /// Agent 可以执行服务器操作（需用户确认）。
@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:surlor_ai/data/model/ai/agent_tools.dart';
 import 'package:surlor_ai/data/provider/ai/agent_service.dart';
 import 'package:surlor_ai/data/provider/ai/ask_ai.dart';
+import 'package:surlor_ai/data/helper/gen_ssh.dart';
 import 'package:surlor_ai/data/provider/ai/ollama_service.dart';
 import 'package:surlor_ai/data/res/store.dart';
 
