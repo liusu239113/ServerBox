@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:meta/meta.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:surlor_ai/data/model/ai/agent_tools.dart';
 import 'package:surlor_ai/data/model/ai/ask_ai_models.dart';
