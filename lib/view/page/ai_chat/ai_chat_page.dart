@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:surlor_ai/data/helper/gen_ssh.dart';
 import 'package:surlor_ai/data/provider/ai/agent_service.dart';
-import 'package:surlor_ai/data/provider/ai/ai_capability_tester.dart';
 import 'package:surlor_ai/data/provider/ai/mcp_runtime_service.dart';
 import 'package:surlor_ai/data/provider/ai/ollama_service.dart';
 import 'package:surlor_ai/data/provider/server/all.dart';
@@ -1436,7 +1435,7 @@ class _AiChatPageState extends ConsumerState<AiChatPage>
               ),
               const SizedBox(height: 8),
               const Text(
-                'Android 推荐使用 command=builtin-filesystem，args=<workspace> 或已授权项目目录路径；也可配置 stdio MCP 进程命令。',
+                '手机端只内置文件系统 MCP，用于读取/写入你授权的本地项目目录。Node/Python 等外部 stdio MCP 不能在手机 App 内直接运行，需要部署在桌面端或服务器兼容服务中。',
                 style: TextStyle(fontSize: 12),
               ),
             ],
@@ -1467,203 +1466,6 @@ class _AiChatPageState extends ConsumerState<AiChatPage>
     return result;
   }
 
-  Future<AiCapabilityTestResult> _testProfileCapabilities({
-    required String baseUrl,
-    required String apiKey,
-    required String model,
-  }) {
-    return AiCapabilityTester().test(
-      baseUrl: baseUrl,
-      apiKey: apiKey,
-      model: model,
-    );
-  }
-
-  Future<void> _openProfileEditor({_AiProfile? profile}) async {
-    final current = profile ??
-        const _AiProfile(
-          id: '',
-          name: '自定义模型',
-          baseUrl: 'https://api.deepseek.com/v1',
-          apiKey: '',
-          model: 'deepseek-chat',
-        );
-    final nameCtrl = TextEditingController(text: current.name);
-    final urlCtrl = TextEditingController(text: current.baseUrl);
-    final keyCtrl = TextEditingController(text: current.apiKey);
-    final modelCtrl = TextEditingController(text: current.model);
-    var supportText = current.supportText;
-    var supportImage = current.supportImage;
-    var supportVideo = current.supportVideo;
-    var supportTools = current.supportTools;
-    var testing = false;
-    String? testResult;
-
-    final saved = await showDialog<_AiProfile>(
-      context: context,
-      builder: (c) => StatefulBuilder(
-        builder: (c, setDialogState) => AlertDialog(
-          title: Text(profile == null ? '新增模型配置' : '编辑模型配置'),
-          content: SingleChildScrollView(
-            child: SizedBox(
-              width: 520,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextField(controller: nameCtrl, decoration: const InputDecoration(labelText: '显示名称')),
-                  const SizedBox(height: 10),
-                  TextField(controller: urlCtrl, decoration: const InputDecoration(labelText: 'API 地址')),
-                  const SizedBox(height: 10),
-                  TextField(controller: keyCtrl, decoration: const InputDecoration(labelText: 'API Key'), obscureText: true),
-                  const SizedBox(height: 10),
-                  TextField(controller: modelCtrl, decoration: const InputDecoration(labelText: '模型名称')),
-                  const SizedBox(height: 12),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('模型能力', style: Theme.of(context).textTheme.titleSmall),
-                  ),
-                  CheckboxListTile(
-                    value: supportText,
-                    dense: true,
-                    title: const Text('文本对话'),
-                    subtitle: const Text('必须支持，否则不能作为普通聊天模型使用'),
-                    onChanged: (v) => setDialogState(() => supportText = v ?? false),
-                  ),
-                  CheckboxListTile(
-                    value: supportImage,
-                    dense: true,
-                    title: const Text('图片理解'),
-                    subtitle: const Text('只有测试通过后才建议开启，开启后可上传图片给 Agent'),
-                    onChanged: (v) => setDialogState(() => supportImage = v ?? false),
-                  ),
-                  CheckboxListTile(
-                    value: supportVideo,
-                    dense: true,
-                    title: const Text('视频理解'),
-                    subtitle: const Text('当前 OpenAI 兼容接口未统一视频格式；测试默认不通过'),
-                    onChanged: (v) => setDialogState(() => supportVideo = v ?? false),
-                  ),
-                  CheckboxListTile(
-                    value: supportTools,
-                    dense: true,
-                    title: const Text('工具调用 / Agent 操作'),
-                    subtitle: const Text('用于 SSH、本地文件、运维工具调用；不支持时只能普通聊天'),
-                    onChanged: (v) => setDialogState(() => supportTools = v ?? false),
-                  ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    '本地 Ollama 请填写：http://127.0.0.1:11434/v1，API Key 可填 ollama。安卓手机端不能在本 App 内直接部署推理运行时，需连接外部或本机已运行的兼容服务。',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  if (testResult != null) ...[
-                    const SizedBox(height: 10),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: _terminalOrange.withOpacity(0.5)),
-                        color: Colors.black.withOpacity(0.12),
-                      ),
-                      child: Text(testResult!, style: const TextStyle(fontSize: 12)),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(onPressed: testing ? null : () => Navigator.pop(c), child: const Text('取消')),
-            OutlinedButton.icon(
-              onPressed: testing
-                  ? null
-                  : () async {
-                      final url = urlCtrl.text.trim();
-                      final key = keyCtrl.text.trim();
-                      final model = modelCtrl.text.trim();
-                      final isLocal = url.contains('127.0.0.1:11434') || url.contains('localhost:11434');
-                      if (url.isEmpty || model.isEmpty || (!isLocal && key.isEmpty)) {
-                        setDialogState(() => testResult = '请先填写 API 地址、模型名称，非本地服务还需要 API Key。');
-                        return;
-                      }
-                      setDialogState(() {
-                        testing = true;
-                        testResult = '正在测试文本、图片、工具调用能力...';
-                      });
-                      try {
-                        final result = await _testProfileCapabilities(
-                          baseUrl: url,
-                          apiKey: key,
-                          model: model,
-                        );
-                        setDialogState(() {
-                          supportText = result.text.supported;
-                          supportImage = result.image.supported;
-                          supportVideo = result.video.supported;
-                          supportTools = result.tools.supported;
-                          testing = false;
-                          testResult = '测试结果：\n${result.toHumanText()}\n\n'
-                              '已根据测试结果自动更新勾选项。不可用能力不会在 Agent 中启用。';
-                        });
-                      } catch (e) {
-                        setDialogState(() {
-                          testing = false;
-                          supportText = false;
-                          supportImage = false;
-                          supportVideo = false;
-                          supportTools = false;
-                          testResult = '测试失败：$e';
-                        });
-                      }
-                    },
-              icon: testing
-                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Icon(Icons.fact_check_outlined),
-              label: const Text('测试能力'),
-            ),
-            FilledButton(
-              onPressed: testing
-                  ? null
-                  : () {
-                      Navigator.pop(
-                        c,
-                        current.copyWith(
-                          id: current.id.isEmpty ? DateTime.now().microsecondsSinceEpoch.toString() : current.id,
-                          name: nameCtrl.text.trim().isEmpty ? modelCtrl.text.trim() : nameCtrl.text.trim(),
-                          baseUrl: urlCtrl.text.trim(),
-                          apiKey: keyCtrl.text.trim(),
-                          model: modelCtrl.text.trim(),
-                          supportText: supportText,
-                          supportImage: supportImage,
-                          supportVideo: supportVideo,
-                          supportTools: supportTools,
-                        ),
-                      );
-                    },
-              child: const Text('保存'),
-            ),
-          ],
-        ),
-      ),
-    );
-
-    nameCtrl.dispose();
-    urlCtrl.dispose();
-    keyCtrl.dispose();
-    modelCtrl.dispose();
-
-    if (saved == null) return;
-    setState(() {
-      final idx = _profiles.indexWhere((p) => p.id == saved.id);
-      if (idx >= 0) {
-        _profiles[idx] = saved;
-      } else {
-        _profiles.add(saved);
-      }
-      _currentProfileId = saved.id;
-    });
-    _persistProfiles();
-  }
-
   void _scrollToBottom() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_scrollController.hasClients) return;
@@ -1678,65 +1480,6 @@ class _AiChatPageState extends ConsumerState<AiChatPage>
   void _showSnack(String message) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
-  }
-
-  Future<void> _openServerOpsPanel(Spi? spi) async {
-    if (spi == null) {
-      _showSnack('请先选择目标服务器。');
-      return;
-    }
-    await showModalBottomSheet<void>(
-      context: context,
-      showDragHandle: true,
-      builder: (c) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('服务器运维面板', style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 6),
-              Text('${spi.name} · ${spi.user}@${spi.ip}:${spi.port}', style: UIs.textGrey),
-              const SizedBox(height: 14),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: [
-                  _opsButton(c, Icons.monitor_heart_outlined, '状态总览', '请直接调用 system_status 工具，生成服务器 CPU、内存、磁盘、负载运维概览。'),
-                  _opsButton(c, Icons.security_outlined, '防火墙', '请直接调用 firewall_status 工具，检查 ufw、firewalld、nftables、iptables，并给出风险提示。'),
-                  _opsButton(c, Icons.lan_outlined, '监听端口', '请直接调用 port_list 工具，列出监听端口、协议和进程，并标记公网暴露风险。'),
-                  _opsButton(c, Icons.public_outlined, '网络', '请直接调用 network_status 工具，查看网卡、IP、路由、DNS 和连接摘要。'),
-                  _opsButton(c, Icons.folder_open, '目录空间', '请直接调用 disk_usage 工具，path=/，depth=1，找出大目录并给出清理建议。'),
-                  _opsButton(c, Icons.inventory_2_outlined, 'Docker', '请直接调用 docker_status 工具，查看容器和镜像状态。'),
-                  _opsButton(c, Icons.miscellaneous_services_outlined, '服务', '请直接调用 service_status 工具，查看正在运行的 systemd 服务并指出异常。'),
-                  _opsButton(c, Icons.call_split_outlined, '内网穿透', '请直接调用 tunnel_status 工具，探测 frp、ngrok、cloudflared、tailscale、zerotier、wireguard 状态。'),
-                ],
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                '说明：这些按钮通过 SSH 只读工具执行检查；修改防火墙、删除文件、重启服务等危险操作仍会要求确认。',
-                style: TextStyle(fontSize: 12),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _opsButton(BuildContext sheetContext, IconData icon, String title, String prompt) {
-    return SizedBox(
-      width: 150,
-      child: OutlinedButton.icon(
-        icon: Icon(icon, size: 18),
-        label: Text(title, overflow: TextOverflow.ellipsis),
-        onPressed: () {
-          Navigator.pop(sheetContext);
-          _sendMessage(prompt);
-        },
-      ),
-    );
   }
 
   @override
@@ -1754,19 +1497,9 @@ class _AiChatPageState extends ConsumerState<AiChatPage>
         title: const Text('Surlor Agent'),
         actions: [
           IconButton(
-            tooltip: '服务器运维面板',
-            icon: const Icon(Icons.admin_panel_settings_outlined),
-            onPressed: _isLoading ? null : () => _openServerOpsPanel(spi),
-          ),
-          IconButton(
             tooltip: '历史会话',
             icon: const Icon(Icons.history),
             onPressed: _isLoading ? null : _openConversationHistory,
-          ),
-          IconButton(
-            tooltip: 'AI 模型配置',
-            icon: const Icon(Icons.tune),
-            onPressed: _isLoading ? null : () => _openProfileEditor(profile: profile),
           ),
           IconButton(
             tooltip: 'Agent 控制中心',
@@ -1805,64 +1538,50 @@ class _AiChatPageState extends ConsumerState<AiChatPage>
   }
 
   Widget _buildHeader(_AiProfile? profile, Spi? spi, int visibleServers, int orderedServers) {
+    final chips = <Widget>[
+      _statusChip('模型', profile == null ? '未配置' : '${profile.name} / ${profile.model}'),
+      _statusChip('Agent', _currentAgent?.name ?? '默认'),
+      _statusChip('技能', '${_skills.where((s) => s.enabled).length}'),
+      _statusChip('MCP', '${_mcpServers.where((m) => m.enabled).length}'),
+      _statusChip('服务器', '$visibleServers/$orderedServers'),
+      _statusChip('目标', spi == null ? '未选择' : '${spi.name} ${spi.user}@${spi.ip}:${spi.port}'),
+      _statusChip('工作区', _workspacePath.isEmpty ? '默认目录' : _workspacePath),
+      _statusChip('本地模型', _localRuntimeAvailable ? 'Ollama 已检测' : '需外部运行时'),
+      if (_attachmentName != null) _statusChip('附件', _attachmentName!),
+    ];
+
     return Container(
-      margin: const EdgeInsets.fromLTRB(12, 10, 12, 6),
-      padding: const EdgeInsets.all(12),
+      height: 48,
+      margin: const EdgeInsets.fromLTRB(12, 8, 12, 4),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
       decoration: BoxDecoration(
         color: _terminalPanel,
-        border: Border.all(color: _terminalLine, width: 1.5),
+        border: Border.all(color: _terminalLine, width: 1.2),
         borderRadius: BorderRadius.zero,
-        boxShadow: [
-          BoxShadow(
-            color: _terminalOrange.withOpacity(0.18),
-            blurRadius: 18,
-            spreadRadius: 1,
-          ),
-        ],
       ),
-      child: DefaultTextStyle(
-        style: const TextStyle(color: Color(0xFFFFE0B2)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                const Text('AGENT STATUS', style: TextStyle(color: _terminalOrange, fontWeight: FontWeight.bold)),
-                const Spacer(),
-                Text('SERVERS $visibleServers/$orderedServers'),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                _statusChip('MODEL', profile == null ? '未配置' : '${profile.name} / ${profile.model}'),
-                _statusChip('AGENT', _currentAgent?.name ?? '默认'),
-                _statusChip('SKILLS', '${_skills.where((s) => s.enabled).length}'),
-                _statusChip('MCP', '${_mcpServers.where((m) => m.enabled).length}'),
-                _statusChip('WORKSPACE', _workspacePath.isEmpty ? '默认目录' : _workspacePath),
-                _statusChip('TARGET', spi == null ? '未选择服务器' : '${spi.name} ${spi.user}@${spi.ip}:${spi.port}'),
-                _statusChip('LOCAL', _localRuntimeAvailable ? 'Ollama 已检测' : '手机端需外部运行时'),
-                if (_attachmentName != null) _statusChip('FILE', _attachmentName!),
-              ],
-            ),
-          ],
-        ),
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: chips.length,
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
+        itemBuilder: (_, index) => chips[index],
       ),
     );
   }
 
   Widget _statusChip(String label, String value) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.28),
-        border: Border.all(color: _terminalOrange.withOpacity(0.65)),
+        color: Colors.black.withOpacity(0.22),
+        border: Border.all(color: _terminalOrange.withOpacity(0.58)),
       ),
-      child: Text(
-        '$label: $value',
-        style: const TextStyle(fontSize: 12, color: Color(0xFFFFCC80)),
+      child: Center(
+        child: Text(
+          '$label: $value',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 12, color: Color(0xFFFFCC80)),
+        ),
       ),
     );
   }
@@ -2043,41 +1762,25 @@ class _AiChatPageState extends ConsumerState<AiChatPage>
         border: Border.all(color: _terminalOrange.withOpacity(0.6)),
         color: Colors.black.withOpacity(0.18),
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                value: profile?.id,
-                isExpanded: true,
-                hint: const Text('选择模型'),
-                items: _profiles
-                    .map((p) => DropdownMenuItem(
-                          value: p.id,
-                          child: Text('${p.name} · ${p.model}', overflow: TextOverflow.ellipsis),
-                        ))
-                    .toList(),
-                onChanged: _isLoading
-                    ? null
-                    : (v) {
-                        if (v == null) return;
-                        setState(() => _currentProfileId = v);
-                        _persistProfiles();
-                      },
-              ),
-            ),
-          ),
-          IconButton(
-            tooltip: '编辑当前模型',
-            onPressed: _isLoading || profile == null ? null : () => _openProfileEditor(profile: profile),
-            icon: const Icon(Icons.tune, size: 18),
-          ),
-          IconButton(
-            tooltip: '新增模型配置',
-            onPressed: _isLoading ? null : () => _openProfileEditor(),
-            icon: const Icon(Icons.add, size: 18),
-          ),
-        ],
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: profile?.id,
+          isExpanded: true,
+          hint: const Text('选择模型'),
+          items: _profiles
+              .map((p) => DropdownMenuItem(
+                    value: p.id,
+                    child: Text('${p.name} · ${p.model}', overflow: TextOverflow.ellipsis),
+                  ))
+              .toList(),
+          onChanged: _isLoading
+              ? null
+              : (v) {
+                  if (v == null) return;
+                  setState(() => _currentProfileId = v);
+                  _persistProfiles();
+                },
+        ),
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:fl_lib/fl_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:surlor_ai/data/model/ai/model_registry.dart';
@@ -99,6 +101,11 @@ class _ApiProviderTabState extends State<_ApiProviderTab> {
       }
     }
     if (savedModel.isNotEmpty) _selectedModel = savedModel;
+    if (_selectedPreset != null &&
+        _selectedPreset!.models.isNotEmpty &&
+        !_selectedPreset!.models.contains(_selectedModel)) {
+      _selectedPreset = null;
+    }
   }
 
   @override
@@ -138,14 +145,65 @@ class _ApiProviderTabState extends State<_ApiProviderTab> {
     if (model.isNotEmpty) {
       Stores.setting.askAiModel.put(model);
     }
+    _savePrimaryProfile(
+      url: url,
+      apiKey: key,
+      model: model,
+      supportText: true,
+      supportImage: false,
+      supportVideo: false,
+      supportTools: true,
+    );
 
     if (mounted) {
-      context.showRoundDialog(
-        title: '保存成功',
-        child: const Text('AI 配置已保存，可以在 SSH 终端中使用。'),
-        actions: [TextButton(onPressed: () => context.pop(), child: const Text('好的'))],
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('AI 配置已保存。')),
       );
     }
+  }
+
+  void _savePrimaryProfile({
+    required String url,
+    required String apiKey,
+    required String model,
+    required bool supportText,
+    required bool supportImage,
+    required bool supportVideo,
+    required bool supportTools,
+  }) {
+    final raw = Stores.setting.askAiProfiles.fetch();
+    final profiles = <Map<String, dynamic>>[];
+    try {
+      final decoded = jsonDecode(raw);
+      if (decoded is List) {
+        for (final item in decoded) {
+          if (item is Map) profiles.add(Map<String, dynamic>.from(item));
+        }
+      }
+    } catch (_) {}
+
+    final currentId = Stores.setting.askAiCurrentProfileId.fetch();
+    var index = profiles.indexWhere((p) => p['id'] == currentId);
+    if (index < 0) index = profiles.indexWhere((p) => p['id'] == 'default');
+    final profile = <String, dynamic>{
+      if (index >= 0) ...profiles[index],
+      'id': index >= 0 ? (profiles[index]['id'] ?? 'default') : 'default',
+      'name': _selectedPreset?.name ?? (model.isEmpty ? '自定义模型' : model),
+      'baseUrl': url,
+      'apiKey': apiKey,
+      'model': model,
+      'supportText': supportText,
+      'supportImage': supportImage,
+      'supportVideo': supportVideo,
+      'supportTools': supportTools,
+    };
+    if (index >= 0) {
+      profiles[index] = profile;
+    } else {
+      profiles.insert(0, profile);
+    }
+    Stores.setting.askAiProfiles.put(jsonEncode(profiles));
+    Stores.setting.askAiCurrentProfileId.put('${profile['id']}');
   }
 
   Future<void> _testConnection() async {
@@ -194,6 +252,15 @@ class _ApiProviderTabState extends State<_ApiProviderTab> {
       Stores.setting.askAiSupportImage.put(result.image.supported);
       Stores.setting.askAiSupportVideo.put(result.video.supported);
       Stores.setting.askAiSupportTools.put(result.tools.supported);
+      _savePrimaryProfile(
+        url: url,
+        apiKey: key,
+        model: model,
+        supportText: result.text.supported,
+        supportImage: result.image.supported,
+        supportVideo: result.video.supported,
+        supportTools: result.tools.supported,
+      );
       resultText = '模型 $model 能力测试完成：\n${result.toHumanText()}\n\n'
           '已根据测试结果更新文本、图像、视频、工具调用能力开关；不支持的能力会被关闭。';
     } catch (e) {
@@ -202,7 +269,10 @@ class _ApiProviderTabState extends State<_ApiProviderTab> {
     }
 
     if (!mounted) return;
-    context.pop();
+    Navigator.of(context, rootNavigator: true).pop();
+    if (!mounted) return;
+    await Future<void>.delayed(Duration.zero);
+    if (!mounted) return;
     context.showRoundDialog(
       title: error == null ? '连接成功' : '连接失败',
       child: SelectableText(resultText),
@@ -261,7 +331,12 @@ class _ApiProviderTabState extends State<_ApiProviderTab> {
                     items: _selectedPreset!.models.map((m) {
                       return DropdownMenuItem(value: m, child: Text(m));
                     }).toList(),
-                    onChanged: (v) => setState(() => _selectedModel = v),
+                    onChanged: (v) {
+                      setState(() {
+                        _selectedModel = v;
+                        _modelCtrl.text = v ?? '';
+                      });
+                    },
                   )
                 else
                   Input(
@@ -797,16 +872,9 @@ class _AboutTab extends StatelessWidget {
         Center(
           child: Column(
             children: [
-              Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22),
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFFF9500), Color(0xFFFF6B35)],
-                  ),
-                ),
-                child: const Icon(Icons.smart_toy, size: 56, color: Colors.white),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(22),
+                child: Image.asset('assets/app_icon.png', width: 100, height: 100, fit: BoxFit.cover),
               ),
               const SizedBox(height: 16),
 

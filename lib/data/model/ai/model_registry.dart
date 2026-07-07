@@ -372,6 +372,7 @@ const List<ApiProviderPreset> apiPresets = [
     models: [
       'deepseek-chat',
       'deepseek-reasoner',
+      'deepseek-v4-flash',
     ],
     docUrl: 'https://platform.deepseek.com/api-docs',
     apiKeyHint: 'sk-...',

@@ -150,6 +150,14 @@ class McpRuntimeService {
       return;
     }
 
+    if (isMobile) {
+      _processes[config.id] = _McpProcess.failed(
+        config,
+        '手机端无法直接运行外部 MCP 进程，请使用内置文件系统 MCP；Node/Python MCP 需要放在桌面端或服务器兼容服务中运行。',
+      );
+      return;
+    }
+
     final parsed = _parseCommand(config.command, config.args);
     if (parsed == null) {
       _processes[config.id] = _McpProcess.failed(config, 'Command 为空');

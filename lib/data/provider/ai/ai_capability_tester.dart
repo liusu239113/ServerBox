@@ -168,7 +168,7 @@ class AiCapabilityTester {
             'type': 'function',
             'function': {
               'name': 'capability_probe',
-              'description': '用于检测模型是否支持 OpenAI function calling。',
+              'description': '用于检测模型是否支持 OpenAI function calling。模型支持时可以调用，不支持时可直接回复 OK。',
               'parameters': {
                 'type': 'object',
                 'properties': {},
@@ -177,10 +177,6 @@ class AiCapabilityTester {
             },
           },
         ],
-        'tool_choice': {
-          'type': 'function',
-          'function': {'name': 'capability_probe'},
-        },
         'max_tokens': 16,
       },
       successMessage: '模型返回了 tool_calls。',
@@ -214,7 +210,8 @@ class AiCapabilityTester {
           receiveTimeout: const Duration(seconds: 40),
         ),
       );
-      final ok = validate(response.data);
+      final data = _decodeResponseData(response.data);
+      final ok = validate(data);
       return AiCapabilityProbe(
         supported: ok,
         message: ok ? successMessage : failureMessage,
@@ -232,6 +229,17 @@ class AiCapabilityTester {
     }
   }
 
+  dynamic _decodeResponseData(dynamic data) {
+    if (data is String) {
+      try {
+        return jsonDecode(data);
+      } catch (_) {
+        return data;
+      }
+    }
+    return data;
+  }
+
   bool _hasAssistantOutput(dynamic data) {
     final choices = _choices(data);
     if (choices.isEmpty) return false;
@@ -241,7 +249,13 @@ class AiCapabilityTester {
         final content = message['content'];
         if (content is String && content.trim().isNotEmpty) return true;
         if (content is List && content.isNotEmpty) return true;
+        final reasoning = message['reasoning_content'];
+        if (reasoning is String && reasoning.trim().isNotEmpty) return true;
+        final toolCalls = message['tool_calls'];
+        if (toolCalls is List && toolCalls.isNotEmpty) return true;
       }
+      final text = choice['text'];
+      if (text is String && text.trim().isNotEmpty) return true;
     }
     return false;
   }
